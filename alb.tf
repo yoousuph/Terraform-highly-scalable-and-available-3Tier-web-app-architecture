@@ -1,7 +1,7 @@
 # Create a new load balancer
 resource "aws_lb" "pub-sub-alb" {
   name            = var.load_balancer_name
-  subnets         = [aws_subnet.pub-sub1.id, aws_subnet.pub-sub2.id]
+  subnets         = [aws_subnet.public-subnet1.id, aws_subnet.public-subnet2.id]
   security_groups = [aws_security_group.alb-sg.id]
 
   tags = {
@@ -14,7 +14,7 @@ resource "aws_lb_target_group" "alb-tg" {
   name     = var.target_group_name
   port     = 80
   protocol = "HTTP"
-  vpc_id   = aws_vpc.terraform-vpc.id
+  vpc_id   = aws_vpc.three-tier-vpc.id
 
   # Set the health check configuration for the target group
   health_check {

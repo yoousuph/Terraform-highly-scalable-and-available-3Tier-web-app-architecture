@@ -1,26 +1,34 @@
 # Output
-output "vpc-id" {
-  value = aws_vpc.terraform-vpc.id
+output "three-tier-vpc-id" {
+  value = aws_vpc.three-tier-vpc.id
 }
 
-output "pub-sub1-id" {
-  value = aws_subnet.pub-sub1.id
+output "public-subnet1-id" {
+  value = aws_subnet.public-subnet1.id
 }
 
-output "pub-sub2-id" {
-  value = aws_subnet.pub-sub2.id
+output "public-subnet2-id" {
+  value = aws_subnet.public-subnet2.id
 }
 
-output "priv-sub1-id" {
-  value = aws_subnet.priv-sub1.id
+output "private-subnet1-id" {
+  value = aws_subnet.private-subnet1.id
 }
 
-output "priv-sub2-id" {
-  value = aws_subnet.priv-sub2.id
+output "private-subnet2-id" {
+  value = aws_subnet.private-subnet2.id
 }
 
-output "terraform-igw" {
-  value = aws_internet_gateway.terraform-igw.id
+output "private-subnet3-id" {
+  value = aws_subnet.private-subnet3.id
+}
+
+output "private-subnet4-id" {
+  value = aws_subnet.private-subnet4.id
+}
+
+output "vpc-igw" {
+  value = aws_internet_gateway.vpc-igw.id
 }
 
 output "alb-dns" {

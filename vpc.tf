@@ -1,5 +1,5 @@
 # Create an AWS VPC
-resource "aws_vpc" "terraform-vpc" {
+resource "aws_vpc" "three-tier-vpc" {
   cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
 
@@ -9,8 +9,8 @@ resource "aws_vpc" "terraform-vpc" {
 }
 
 # Create first public subnet in the VPC
-resource "aws_subnet" "pub-sub1" {
-  vpc_id                  = aws_vpc.terraform-vpc.id
+resource "aws_subnet" "public-subnet1" {
+  vpc_id                  = aws_vpc.three-tier-vpc.id
   cidr_block              = var.public_sub1_cidr
   availability_zone       = var.availability_zone-1
   map_public_ip_on_launch = true
@@ -21,8 +21,8 @@ resource "aws_subnet" "pub-sub1" {
 }
 
 # Create second public subnet in the VPC
-resource "aws_subnet" "pub-sub2" {
-  vpc_id                  = aws_vpc.terraform-vpc.id
+resource "aws_subnet" "public-subnet2" {
+  vpc_id                  = aws_vpc.three-tier-vpc.id
   cidr_block              = var.public_sub2_cidr
   availability_zone       = var.availability_zone-2
   map_public_ip_on_launch = true
@@ -33,8 +33,8 @@ resource "aws_subnet" "pub-sub2" {
 }
 
 # Create first private subnet in the VPC
-resource "aws_subnet" "priv-sub1" {
-  vpc_id                  = aws_vpc.terraform-vpc.id
+resource "aws_subnet" "private-subnet1" {
+  vpc_id                  = aws_vpc.three-tier-vpc.id
   cidr_block              = var.private_sub1_cidr
   availability_zone       = var.availability_zone-1
   map_public_ip_on_launch = true
@@ -45,8 +45,8 @@ resource "aws_subnet" "priv-sub1" {
 }
 
 # Create second private subnet in the VPC
-resource "aws_subnet" "priv-sub2" {
-  vpc_id                  = aws_vpc.terraform-vpc.id
+resource "aws_subnet" "private-subnet2" {
+  vpc_id                  = aws_vpc.three-tier-vpc.id
   cidr_block              = var.private_sub2_cidr
   availability_zone       = var.availability_zone-2
   map_public_ip_on_launch = true
@@ -56,9 +56,9 @@ resource "aws_subnet" "priv-sub2" {
   }
 }
 
-# Create second private subnet in the VPC
-resource "aws_subnet" "priv-sub3" {
-  vpc_id                  = aws_vpc.terraform-vpc.id
+# Create third private subnet in the VPC
+resource "aws_subnet" "private-subnet3" {
+  vpc_id                  = aws_vpc.three-tier-vpc.id
   cidr_block              = var.private_sub3_cidr
   availability_zone       = var.availability_zone-2
   map_public_ip_on_launch = true
@@ -68,9 +68,9 @@ resource "aws_subnet" "priv-sub3" {
   }
 }
 
-# Create second private subnet in the VPC
-resource "aws_subnet" "priv-sub4" {
-  vpc_id                  = aws_vpc.terraform-vpc.id
+# Create fourth private subnet in the VPC
+resource "aws_subnet" "private-subnet4" {
+  vpc_id                  = aws_vpc.three-tier-vpc.id
   cidr_block              = var.private_sub4_cidr
   availability_zone       = var.availability_zone-2
   map_public_ip_on_launch = true

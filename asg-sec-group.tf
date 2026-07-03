@@ -1,7 +1,7 @@
 # Creating Security Group for ASG Launch Template
 resource "aws_security_group" "lt-sg" {
   name   = var.lt_sg_name
-  vpc_id = aws_vpc.terraform-vpc.id
+  vpc_id = aws_vpc.three-tier-vpc.id
 
   # Inbound Rules
   # HTTP access from anywhere
