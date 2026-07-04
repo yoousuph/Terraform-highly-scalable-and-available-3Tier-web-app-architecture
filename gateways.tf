@@ -1,3 +1,4 @@
+// INTERNET GATEWAY
 # Create an internet gateway and associate it with the VPC
 resource "aws_internet_gateway" "vpc-igw" {
   vpc_id = aws_vpc.three-tier-vpc.id
@@ -7,14 +8,7 @@ resource "aws_internet_gateway" "vpc-igw" {
   }
 }
 
-# Create an Elastic IP address
-resource "aws_eip" "nat-gw-eip" {
-  domain = "vpc"
-  tags = {
-    Name = var.nat_eip_name
-  }
-}
-
+// NAT GATEWAY
 # Create a NAT gateway and associate it with an Elastic IP and a public subnet
 resource "aws_nat_gateway" "vpc-ngw" {
   allocation_id = aws_eip.nat-gw-eip.id        # Associate the NAT gateway with the Elastic IP
@@ -25,4 +19,12 @@ resource "aws_nat_gateway" "vpc-ngw" {
   }
 
   depends_on = [aws_internet_gateway.vpc-igw] # Make sure the internet gateway is created before creating the NAT gateway
+}
+
+# Create an Elastic IP address
+resource "aws_eip" "nat-gw-eip" {
+  domain = "vpc"
+  tags = {
+    Name = var.nat_eip_name
+  }
 }

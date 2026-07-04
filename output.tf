@@ -27,10 +27,10 @@ output "private-subnet4-id" {
   value = aws_subnet.private-subnet4.id
 }
 
-output "vpc-igw" {
+output "vpc-igw-id" {
   value = aws_internet_gateway.vpc-igw.id
 }
 
-output "alb-dns" {
+output "alb-dns-name" {
   value = aws_lb.pub-sub-alb.dns_name
 }

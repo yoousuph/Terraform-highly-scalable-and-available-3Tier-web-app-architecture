@@ -1,3 +1,4 @@
+// PUBLIC ROUTE TABLE
 # Creates a public route table with a default route to the internet gateway
 resource "aws_route_table" "pub-rt" {
   vpc_id = aws_vpc.three-tier-vpc.id
@@ -13,6 +14,25 @@ resource "aws_route_table" "pub-rt" {
   }
 }
 
+# Associates the public route table with the public subnet 1
+resource "aws_route_table_association" "pub-sub1-rt-ass" {
+  subnet_id      = aws_subnet.public-subnet1.id
+  route_table_id = aws_route_table.pub-rt.id
+
+  # Wait for the public route table to be created before creating this association
+  depends_on = [aws_route_table.pub-rt]
+}
+
+# Associates the public route table with the public subnet 2
+resource "aws_route_table_association" "pub-sub2-rt-ass" {
+  subnet_id      = aws_subnet.public-subnet2.id
+  route_table_id = aws_route_table.pub-rt.id
+
+  # Wait for the public route table to be created before creating this association
+  depends_on = [aws_route_table.pub-rt]
+}
+
+// PRIVATE ROUTE TABLE
 # Creates a private route table with a default route to the NAT gateway
 resource "aws_route_table" "priv-rt" {
   vpc_id = aws_vpc.three-tier-vpc.id
@@ -25,24 +45,6 @@ resource "aws_route_table" "priv-rt" {
   tags = {
     Name = var.private_rt_name
   }
-}
-
-# Associates the public route table with the public subnet 1
-resource "aws_route_table_association" "pub-sub1-rt-ass" {
-  subnet_id      = aws_subnet.public-subnet1.id
-  route_table_id = aws_route_table.pub-rt.id
-
-   # Wait for the public route table to be created before creating this association
-  depends_on = [aws_route_table.pub-rt]
-}
-
-# Associates the public route table with the public subnet 2
-resource "aws_route_table_association" "pub-sub2-rt-ass" {
-  subnet_id      = aws_subnet.public-subnet2.id
-  route_table_id = aws_route_table.pub-rt.id
-
-   # Wait for the public route table to be created before creating this association
-  depends_on = [aws_route_table.pub-rt]
 }
 
 # Associates the private route table with the private subnet 1
@@ -78,3 +80,5 @@ resource "aws_route_table_association" "priv-sub4-rt-ass" {
   # Wait for the private route table to be created before creating this association
   depends_on = [aws_route_table.priv-rt]
 }
+
+

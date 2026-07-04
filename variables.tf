@@ -157,40 +157,69 @@ variable "private_rt_cidr" {
 
 //------------------ SECURITY GROUP VARIABLES ----------------------
 // APPLICATION LOAD BALANCER SECURITY GROUP
-variable "alb_sg_name" {
+variable "pub_sub_alb_sg_name" {
   type        = string
-  description = "Name of the App Load Balancer security group"
-  default     = "alb-sg"
+  description = "Name of the public alb security group"
+  default     = "public-sub-alb-sg"
+}
+
+variable "priv_sub_alb_sg_name" {
+  type        = string
+  description = "Name of the private alb security group"
+  default     = "private-sub-alb-sg"
 }
 
 // APPLICATION LOAD BALANCER SECURITY GROUP INBOUND RULE
-variable "alb_sg_ingress_cidr_blocks" {
+variable "pub_sub_alb_sg_ingress_cidr_blocks" {
+  type        = list(string)
+  description = "List of CIDR blocks to allow inbound traffic to the App Load Balancer security group"
+  default     = ["0.0.0.0/0"]
+}
+
+variable "priv_sub_alb_sg_ingress_cidr_blocks" {
   type        = list(string)
   description = "List of CIDR blocks to allow inbound traffic to the App Load Balancer security group"
   default     = ["0.0.0.0/0"]
 }
 
 // APPLICATION LOAD BALANCER SECURITY GROUP OUTBOUND RULE
-variable "alb_sg_egress_cidr_blocks" {
+variable "pub_sub_alb_sg_egress_cidr_blocks" {
+  type        = list(string)
+  description = "List of CIDR blocks to allow outbound traffic from the App Load Balancer security group"
+  default     = ["0.0.0.0/0"]
+}
+
+variable "priv_sub_alb_sg_egress_cidr_blocks" {
   type        = list(string)
   description = "List of CIDR blocks to allow outbound traffic from the App Load Balancer security group"
   default     = ["0.0.0.0/0"]
 }
 
 // AUTO SCALING GROUP SECURITY GROUP
-variable "lt_sg_name" {
+variable "pub_sub_asg_lt_sg_name" {
   type        = string
-  description = "Name of the ASG security group"
-  default     = "Security Group for ASG"
+  description = "Name of the ASG security group for public subnet"
+  default     = "asg Security Group for public subnet"
+}
+
+variable "priv_sub_asg_lt_sg_name" {
+  type        = string
+  description = "Name of the ASG security group for private subnet"
+  default     = "asg Security Group for private subnet"
 }
 
 // LAUNCH TEMPLATE SECURITY GROUP FOR INBOUND RULE
-variable "lt_sg_egress_cidr_blocks" {
+variable "pub_sub_asg_lt_sg_egress_cidr_blocks" {
   type        = list(string)
   description = "List of CIDR blocks to allow outbound traffic from the ASG security group"
   default     = ["0.0.0.0/0"]
 }
 
+variable "priv_sub_asg_lt_sg_egress_cidr_blocks" {
+  type        = list(string)
+  description = "List of CIDR blocks to allow outbound traffic from the ASG security group"
+  default     = ["0.0.0.0/0"]
+}
 
 // --------------- INSTANCES DHCP ENABLE VARIABLES -----------------
 // INSTANCE AUTO ASSIGN IP
@@ -202,92 +231,163 @@ variable "auto_assign_ip" {
 
 // ---------------- LAUNCH TEMPLATE VARIABLES -----------------
 // LAUNCH TEMPLATE FOR AUTO SCALING GROUP
-variable "lt_asg_name" {
+variable "pub_sub_asg_lt_name" {
+  type        = string
+  description = "Name of the Launch Template"
+  default     = "lt-asg"
+}
+
+variable "priv_sub_asg_lt_name" {
   type        = string
   description = "Name of the Launch Template"
   default     = "lt-asg"
 }
 
 // LAUNCH TEMPLATE FOR AMAZON MACHINE IMAGE (AMI)
-variable "lt_asg_ami" {
+variable "pub_sub_asg_lt_ami" {
+  type        = string
+  description = "Amazon Linux 2 Ami ID"
+  default     = "ami-06067086cf86c58e6"
+}
+
+variable "priv_sub_asg_lt_ami" {
   type        = string
   description = "Amazon Linux 2 Ami ID"
   default     = "ami-06067086cf86c58e6"
 }
 
 // LAUNCH TEMPLATE FOR AUTOSCALLING GROUP INSTANCE TYPE
-variable "lt_asg_instance_type" {
+variable "pub_sub_asg_lt_instance_type" {
+  type        = string
+  description = "T2 Micro Instance Type"
+  default     = "t2.micro"
+}
+
+variable "priv_sub_asg_lt_instance_type" {
   type        = string
   description = "T2 Micro Instance Type"
   default     = "t2.micro"
 }
 
 // LAUNCH TEMPLATE FOR AUTOSCALLING GROUP KEY PAIR
-variable "lt_asg_key" {
+variable "pub_sub_asg_lt_key" {
   type        = string
   description = "Key Pair"
-  default     = ""
+  default     = "app-key-pair"
+}
+
+variable "priv_sub_asg_lt_key" {
+  type        = string
+  description = "Key Pair"
+  default     = "app-key-pair"
 }
 
 
 // ------------------- TARGET GROUP VARIABLES -----------------
 // INSTANCES TARGET GROUP
-variable "target_group_name" {
+variable "pub_target_group_name" {
   type        = string
-  description = "Name of the target group"
-  default     = "alb-tg"
+  description = "Name of the public subnet target group"
+  default     = "pub-sub-alb-tg"
+}
+
+variable "priv_target_group_name" {
+  type        = string
+  description = "Name of the private subnet target group"
+  default     = "priv-sub-alb-tg"
 }
 
 
 // ------------------------ PORT VARIABLES ---------------------
 // HTTP TRAFFIC PORT NUMBER
-variable "http_port" {
+variable "pub_sub_http_port" {
   type        = number
-  description = "Port for HTTP traffic"
+  description = "Port for HTTP traffic in the public subnet"
+  default     = 80
+}
+
+variable "priv_sub_http_port" {
+  type        = number
+  description = "Port for HTTP traffic in the private subnet"
   default     = 80
 }
 
 // SSH TRAFFIC PORT NUMBER
-variable "ssh_port" {
+variable "pub_sub_ssh_port" {
   type        = number
-  description = "Port for SSH traffic"
+  description = "Port for SSH traffic in the public subnet"
+  default     = 22
+}
+
+variable "priv_sub_ssh_port" {
+  type        = number
+  description = "Port for SSH traffic in the private subnet"
   default     = 22
 }
 
 
 // --------------------- APPLICATION LOAD BALANCER VARIABLES -----------------
 // APPLICATION LOAD BALANCER
-variable "load_balancer_name" {
+variable "pub_load_balancer_name" {
   type        = string
   description = "Name of the load balancer"
-  default     = "pub-sub-alb"
+  default     = "public-subnet-alb"
 }
 
+variable "priv_load_balancer_name" {
+  type        = string
+  description = "Name of the load balancer"
+  default     = "private-subnet-alb"
+}
 
 // --------------------- AUTO SCALING GROUP VARIABLES ---------------------
 // AUTO SCALING GROUP
-variable "asg_name" {
+variable "pub_sub_asg_name" {
   type        = string
-  description = "Name of the ASG"
+  description = "Name of the public subnet ASG"
+  default     = "ASG"
+}
+
+variable "priv_sub_asg_name" {
+  type        = string
+  description = "Name of the private subnet ASG"
   default     = "ASG"
 }
 
 // AUTO SCALING GROUP MIN SIZE
-variable "asg_min" {
+variable "pub_sub_asg_min" {
+  type        = number
+  description = "ASG Min Size"
+  default     = 2
+}
+
+variable "priv_sub_asg_min" {
   type        = number
   description = "ASG Min Size"
   default     = 2
 }
 
 // AUTO SCALING GROUP MAX SIZE
-variable "asg_max" {
+variable "pub_sub_asg_max" {
+  type        = number
+  description = "ASG Max Size"
+  default     = 2
+}
+
+variable "priv_sub_asg_max" {
   type        = number
   description = "ASG Max Size"
   default     = 2
 }
 
 // AUTO SCALING GROUP DESIRED CAPACITY
-variable "asg_des_cap" {
+variable "pub_sub_asg_des_cap" {
+  type        = number
+  description = "ASG Desired Capacity"
+  default     = 2
+}
+
+variable "priv_sub_asg_des_cap" {
   type        = number
   description = "ASG Desired Capacity"
   default     = 2

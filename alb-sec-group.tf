@@ -1,31 +1,32 @@
-# Create security group for ALB
-resource "aws_security_group" "alb-sg" {
+// PUBLIC SUBNETS ALB SECURITY GROUP
+# Create security group for public ALB
+resource "aws_security_group" "pub-sub-alb-sg" {
 
   # Set name and description of the security group
-  name        = var.alb_sg_name
-  description = var.alb_sg_name
+  name        = var.pub_sub_alb_sg_name
+  description = var.pub_sub_alb_sg_name
 
   # Set the VPC ID where the security group will be created
-  vpc_id     = aws_vpc.three-tier-vpc.id 
+  vpc_id     = aws_vpc.three-tier-vpc.id
   depends_on = [aws_vpc.three-tier-vpc] # Ensure the VPC is created before creating the security group
 
   # Inbound Rule
   # HTTP access from anywhere
   ingress {
     description = "Allow HTTP Traffic"
-    from_port   = var.http_port
-    to_port     = var.http_port
+    from_port   = var.pub_sub_http_port
+    to_port     = var.pub_sub_http_port
     protocol    = "tcp"
-    cidr_blocks = var.alb_sg_ingress_cidr_blocks
+    cidr_blocks = var.pub_sub_alb_sg_ingress_cidr_blocks
   }
 
   # SSH access from anywhere
   ingress {
     description = "Allow SSH Traffic"
-    from_port   = var.ssh_port
-    to_port     = var.ssh_port
+    from_port   = var.pub_sub_ssh_port
+    to_port     = var.pub_sub_ssh_port
     protocol    = "tcp"
-    cidr_blocks = var.alb_sg_ingress_cidr_blocks
+    cidr_blocks = var.pub_sub_alb_sg_ingress_cidr_blocks
   }
 
   # Outbound Rule
@@ -34,12 +35,58 @@ resource "aws_security_group" "alb-sg" {
     from_port   = "0"
     to_port     = "0"
     protocol    = "-1"
-    cidr_blocks = var.alb_sg_egress_cidr_blocks
+    cidr_blocks = var.pub_sub_alb_sg_egress_cidr_blocks
   }
 
   # Set tags for the security group
   tags = {
-    Name = var.alb_sg_name
+    Name = var.pub_sub_alb_sg_name
+  }
+}
+
+
+// PRIVATE SUBNETS ALB SECURITY GROUP
+# Create security group for private ALB
+resource "aws_security_group" "priv-sub-alb-sg" {
+
+  # Set name and description of the security group
+  name        = var.priv_sub_alb_sg_name
+  description = var.priv_sub_alb_sg_name
+  # Set the VPC ID where the security group will be created
+  vpc_id     = aws_vpc.three-tier-vpc.id
+  depends_on = [aws_vpc.three-tier-vpc] # Ensure the VPC is created before creating the security group
+
+  # Inbound Rule
+  # HTTP access from anywhere
+  ingress {
+    description = "Allow HTTP Traffic"
+    from_port   = var.priv_sub_http_port
+    to_port     = var.priv_sub_http_port
+    protocol    = "tcp"
+    cidr_blocks = var.priv_sub_alb_sg_ingress_cidr_blocks
+  }
+
+  # SSH access from anywhere
+  ingress {
+    description = "Allow SSH Traffic"
+    from_port   = var.priv_sub_ssh_port
+    to_port     = var.priv_sub_ssh_port
+    protocol    = "tcp"
+    cidr_blocks = var.priv_sub_alb_sg_ingress_cidr_blocks
+  }
+
+  # Outbound Rule
+  # Allow all egress traffic
+  egress {
+    from_port   = "0"
+    to_port     = "0"
+    protocol    = "-1"
+    cidr_blocks = var.priv_sub_alb_sg_egress_cidr_blocks
+  }
+
+  # Set tags for the security group
+  tags = {
+    Name = var.priv_sub_alb_sg_name
   }
 }
 
