@@ -6,7 +6,7 @@ resource "aws_security_group" "alb-sg" {
   description = var.alb_sg_name
 
   # Set the VPC ID where the security group will be created
-  vpc_id     = aws_vpc.three-tier-vpc.id
+  vpc_id     = aws_vpc.three-tier-vpc.id 
   depends_on = [aws_vpc.three-tier-vpc] # Ensure the VPC is created before creating the security group
 
   # Inbound Rule
@@ -28,7 +28,7 @@ resource "aws_security_group" "alb-sg" {
     cidr_blocks = var.alb_sg_ingress_cidr_blocks
   }
 
-  # Inbound Rule
+  # Outbound Rule
   # Allow all egress traffic
   egress {
     from_port   = "0"
@@ -39,7 +39,7 @@ resource "aws_security_group" "alb-sg" {
 
   # Set tags for the security group
   tags = {
-    Name = "ALB SG"
+    Name = var.alb_sg_name
   }
 }
 

@@ -4,7 +4,7 @@ resource "aws_autoscaling_group" "asg" {
   min_size            = var.asg_min
   max_size            = var.asg_max
   desired_capacity    = var.asg_des_cap
-  vpc_zone_identifier = [aws_subnet.private-subnet1.id, aws_subnet.private-subnet2.id]
+  vpc_zone_identifier = [aws_subnet.public-subnet1.id, aws_subnet.public-subnet2.id]
   launch_template {
     id = aws_launch_template.lt-asg.id
   }
@@ -12,7 +12,7 @@ resource "aws_autoscaling_group" "asg" {
   # Tag the autoscaling group for easier identification
   tag {
     key                 = "Name"
-    value               = "Private Sub ASG"
+    value               = "Public Sub ASG"
     propagate_at_launch = true
   }
 }

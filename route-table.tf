@@ -31,12 +31,18 @@ resource "aws_route_table" "priv-rt" {
 resource "aws_route_table_association" "pub-sub1-rt-ass" {
   subnet_id      = aws_subnet.public-subnet1.id
   route_table_id = aws_route_table.pub-rt.id
+
+   # Wait for the public route table to be created before creating this association
+  depends_on = [aws_route_table.pub-rt]
 }
 
 # Associates the public route table with the public subnet 2
 resource "aws_route_table_association" "pub-sub2-rt-ass" {
   subnet_id      = aws_subnet.public-subnet2.id
   route_table_id = aws_route_table.pub-rt.id
+
+   # Wait for the public route table to be created before creating this association
+  depends_on = [aws_route_table.pub-rt]
 }
 
 # Associates the private route table with the private subnet 1

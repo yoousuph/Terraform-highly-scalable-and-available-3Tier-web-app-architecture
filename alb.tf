@@ -1,8 +1,10 @@
-# Create a new load balancer
+# Create a new load balancer - ALB for public subnets
 resource "aws_lb" "pub-sub-alb" {
   name            = var.load_balancer_name
   subnets         = [aws_subnet.public-subnet1.id, aws_subnet.public-subnet2.id]
   security_groups = [aws_security_group.alb-sg.id]
+
+  depends_on = [ aws_lb_target_group.alb-tg ]
 
   tags = {
     Name = "Pub-Sub-ALB"
