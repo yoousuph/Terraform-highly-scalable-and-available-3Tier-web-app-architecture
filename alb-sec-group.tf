@@ -1,9 +1,9 @@
 # Create security group for ALB
 resource "aws_security_group" "alb-sg" {
-  
+
   # Set name and description of the security group
   name        = var.alb_sg_name
-  description = var.alb_sg_name 
+  description = var.alb_sg_name
 
   # Set the VPC ID where the security group will be created
   vpc_id     = aws_vpc.three-tier-vpc.id

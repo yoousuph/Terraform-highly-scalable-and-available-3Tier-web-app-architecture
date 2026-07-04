@@ -10,14 +10,14 @@ resource "aws_internet_gateway" "vpc-igw" {
 # Create an Elastic IP address
 resource "aws_eip" "nat-gw-eip" {
   domain = "vpc"
-   tags = {
+  tags = {
     Name = var.nat_eip_name
   }
 }
 
 # Create a NAT gateway and associate it with an Elastic IP and a public subnet
 resource "aws_nat_gateway" "vpc-ngw" {
-  allocation_id = aws_eip.nat-gw-eip.id     # Associate the NAT gateway with the Elastic IP
+  allocation_id = aws_eip.nat-gw-eip.id        # Associate the NAT gateway with the Elastic IP
   subnet_id     = aws_subnet.public-subnet1.id # Associate the NAT gateway with a public subnet
 
   tags = {
