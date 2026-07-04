@@ -226,7 +226,7 @@ variable "lt_asg_instance_type" {
 variable "lt_asg_key" {
   type        = string
   description = "Key Pair"
-  default     = "tatendaKeypair"
+  default     = ""
 }
 
 
