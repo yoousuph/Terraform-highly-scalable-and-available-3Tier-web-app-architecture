@@ -20,7 +20,7 @@ override.tf.json
 *_override.tf.json
 
 # Terraform lock file (optional - see note below)
-# .terraform.lock.hcl
+.terraform.lock.hcl
 
 # Crash logs
 crash.log
