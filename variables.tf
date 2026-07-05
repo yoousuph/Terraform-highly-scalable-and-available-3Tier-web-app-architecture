@@ -234,13 +234,13 @@ variable "auto_assign_ip" {
 variable "pub_sub_asg_lt_name" {
   type        = string
   description = "Name of the Launch Template"
-  default     = "lt-asg"
+  default     = "public-subnet-asg-lt"
 }
 
 variable "priv_sub_asg_lt_name" {
   type        = string
   description = "Name of the Launch Template"
-  default     = "lt-asg"
+  default     = "private-subnet-asg-lt"
 }
 
 // LAUNCH TEMPLATE FOR AMAZON MACHINE IMAGE (AMI)
@@ -345,13 +345,13 @@ variable "priv_load_balancer_name" {
 variable "pub_sub_asg_name" {
   type        = string
   description = "Name of the public subnet ASG"
-  default     = "ASG"
+  default     = "pub_sub_asg"
 }
 
 variable "priv_sub_asg_name" {
   type        = string
   description = "Name of the private subnet ASG"
-  default     = "ASG"
+  default     = "priv_sub_asg"
 }
 
 // AUTO SCALING GROUP MIN SIZE
@@ -391,5 +391,89 @@ variable "priv_sub_asg_des_cap" {
   type        = number
   description = "ASG Desired Capacity"
   default     = 2
+}
+
+// --------------------- RDS DATABASE VARIABLES ---------------------
+variable "db_instance_identifier" {
+  type        = string
+  description = "Identifier for the RDS database instance"
+  default     = "mydb-instance"
+}
+
+variable "db_name" {
+  type        = string
+  description = "Name of the RDS database"
+  default     = "mydb"
+}
+variable "db_username" {
+  type        = string
+  description = "Username for the RDS database"
+  default     = "admin"
+}
+variable "db_password" {
+  type        = string
+  description = "Password for the RDS database"
+  default     = "yusrds58"
+}
+variable "db_allocated_storage" {
+  type        = number
+  description = "Allocated storage for the RDS database in GB"
+  default     = 20
+}
+variable "db_storage_type" {
+  type        = string
+  description = "Storage type for the RDS database"
+  default     = "gp2"
+}
+variable "db_engine" {
+  type        = string
+  description = "Database engine for the RDS database"
+  default     = "mysql"
+}
+variable "db_engine_version" {
+  type        = string
+  description = "Database engine version for the RDS database"
+  default     = "8.0"
+}
+variable "db_instance_class" {
+  type        = string
+  description = "Instance class for the RDS database"
+  default     = "db.t2.micro"
+}
+
+// --------------------- RDS DATABASE SUBNET GROUP VARIABLES ---------------------
+variable "db_subnet_group_name" {
+  type        = string
+  description = "Name of the RDS database subnet group"
+  default     = "mydb-subnet-group"
+}
+variable "db_parameter_group_name" {
+  type        = string
+  description = "Name of the RDS database parameter group"
+  default     = "default.mysql8.0"
+}
+
+// --------------------- RDS DATABASE SECURITY GROUP VARIABLES ---------------------
+variable "db_sg_name" {
+  type        = string
+  description = "Name of the RDS database security group"
+  default     = "mydb-subnet-group-sg"
+}
+variable "db_port" {
+  type        = number
+  description = "Port for the RDS database"
+  default     = 3306
+}
+
+variable "db_ingress_cidr" { // not needed since we are allowing traffic from the private subnet ALB security group to the RDS security group
+  type        = string
+  description = "CIDR block to allow inbound traffic to the RDS database security group"
+  default     = "0.0.0.0/0"
+}
+
+variable "db_egress_cidr" {
+  type        = string
+  description = "CIDR block to allow outbound traffic from the RDS database security group"
+  default     = "0.0.0.0/0"
 }
 
