@@ -477,3 +477,16 @@ variable "db_egress_cidr" {
   default     = "0.0.0.0/0"
 }
 
+
+// --------------------- IAM ROLE VARIABLES ---------------------
+variable "iam_role_name" {
+  type        = string
+  description = "Name of the IAM role for EC2 instances"
+  default     = "ec2-s3-readonly-role"
+}
+
+variable "iam_instance_profile_name" {
+  type        = string
+  description = "Name of the IAM instance profile for EC2 instances"
+  default     = "ec2-s3-readonly-profile"
+}
