@@ -42,7 +42,11 @@ resource "aws_autoscaling_group" "priv-sub-asg" {
   min_size            = var.priv_sub_asg_min
   max_size            = var.priv_sub_asg_max
   desired_capacity    = var.priv_sub_asg_des_cap
-  vpc_zone_identifier = [aws_subnet.private-subnet1.id, aws_subnet.private-subnet2.id]
+  vpc_zone_identifier = [
+    aws_subnet.private-subnet1.id,
+    aws_subnet.private-subnet2.id
+    ]
+    
   launch_template {
     id = aws_launch_template.pub_sub_asg_lt.id
   }
