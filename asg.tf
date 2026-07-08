@@ -1,14 +1,5 @@
 // PUBLIC SUBNET AUTOSCALING GROUP
 # Create a launch template with the specified configurations
-# resource "aws_launch_template" "pub-sub-asg-lt" {
-#   name                   = var.pub_sub_asg_lt_name
-#   image_id               = var.pub_sub_asg_lt_ami
-#   instance_type          = var.pub_sub_asg_lt_instance_type
-#   key_name               = var.pub_sub_asg_lt_key
-#   vpc_security_group_ids = [aws_security_group.pub-sub-asg-lt-sg.id]
-#   user_data              = filebase64("${path.root}/nginx-install.sh")
-# }
-
 resource "aws_launch_template" "pub-sub-asg-lt" {
   name                   = var.pub_sub_asg_lt_name
   image_id               = var.pub_sub_asg_lt_ami
@@ -17,9 +8,9 @@ resource "aws_launch_template" "pub-sub-asg-lt" {
   vpc_security_group_ids = [aws_security_group.pub-sub-asg-lt-sg.id]
   user_data              = filebase64("${path.root}/nginx-install.sh")
 
-  iam_instance_profile {
-    name = aws_iam_instance_profile.ec2_profile.name
-  }
+  # iam_instance_profile {           // not requiered as we are using the default instance profile for the public subnet instances
+  #   name = aws_iam_instance_profile.ec2-iam-instance-profile.name
+  # }
 }
 
 # Create an autoscaling group with the specified configurations
@@ -28,7 +19,10 @@ resource "aws_autoscaling_group" "pub-sub-asg" {
   min_size            = var.pub_sub_asg_min
   max_size            = var.pub_sub_asg_max
   desired_capacity    = var.pub_sub_asg_des_cap
-  vpc_zone_identifier = [aws_subnet.public-subnet1.id, aws_subnet.public-subnet2.id]
+  vpc_zone_identifier = [
+    aws_subnet.public-subnet1.id,
+    aws_subnet.public-subnet2.id
+    ]
 
   launch_template {
     id = aws_launch_template.pub-sub-asg-lt.id
@@ -51,25 +45,16 @@ resource "aws_autoscaling_attachment" "pub-sub-asg-tg-attach" {
 
 // PRIVATE SUBNET AUTOSCALING GROUP
 # Create a launch template with the specified configurations
-# resource "aws_launch_template" "priv_sub_asg_lt" {
-#   name                   = var.priv_sub_asg_lt_name
-#   image_id               = var.priv_sub_asg_lt_ami
-#   instance_type          = var.priv_sub_asg_lt_instance_type
-#   key_name               = var.priv_sub_asg_lt_key
-#   vpc_security_group_ids = [aws_security_group.priv-sub-asg-lt-sg.id]
-#   user_data              = filebase64("${path.root}/nginx-install.sh")
-# }
-
 resource "aws_launch_template" "priv-sub-asg-lt" {
   name                   = var.priv_sub_asg_lt_name
   image_id               = var.priv_sub_asg_lt_ami
   instance_type          = var.priv_sub_asg_lt_instance_type
   key_name               = var.priv_sub_asg_lt_key
   vpc_security_group_ids = [aws_security_group.priv-sub-asg-lt-sg.id]
-  user_data              = filebase64("${path.root}/nginx-install.sh")
+  user_data              = filebase64("${path.root}/nodejs-install.sh")
 
   iam_instance_profile {
-    name = aws_iam_instance_profile.ec2_profile.name
+    name = aws_iam_instance_profile.ec2-iam-instance-profile.name
   }
 }
 

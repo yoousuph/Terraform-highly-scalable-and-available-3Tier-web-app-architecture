@@ -273,7 +273,7 @@ variable "priv_sub_asg_lt_instance_type" {
 variable "pub_sub_asg_lt_key" {
   type        = string
   description = "Key Pair"
-  default     = "app-key-pair"
+  default     = "web-key-pair"
 }
 
 variable "priv_sub_asg_lt_key" {
