@@ -6,7 +6,11 @@ resource "aws_launch_template" "pub-sub-asg-lt" {
   instance_type          = var.pub_sub_asg_lt_instance_type
   key_name               = var.pub_sub_asg_lt_key
   vpc_security_group_ids = [aws_security_group.pub-sub-asg-lt-sg.id]
-  user_data              = filebase64("${path.root}/nginx-install.sh")
+  user_data = base64encode(
+    templatefile("${path.module}/web_ud.sh.tpl", {
+      nginx_conf = local.nginx_conf
+    })
+  )
 
   # iam_instance_profile {           // not requiered as we are using the default instance profile for the public subnet instances
   #   name = aws_iam_instance_profile.ec2-iam-instance-profile.name
@@ -51,8 +55,8 @@ resource "aws_launch_template" "priv-sub-asg-lt" {
   instance_type          = var.priv_sub_asg_lt_instance_type
   key_name               = var.priv_sub_asg_lt_key
   vpc_security_group_ids = [aws_security_group.priv-sub-asg-lt-sg.id]
-  user_data              = filebase64("${path.root}/nodejs-install.sh")
-
+  user_data              = filebase64("${path.root}/app_ud.sh")
+  
   iam_instance_profile {
     name = aws_iam_instance_profile.ec2-iam-instance-profile.name
   }

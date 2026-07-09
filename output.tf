@@ -31,6 +31,10 @@ output "vpc-igw-id" {
   value = aws_internet_gateway.vpc-igw.id
 }
 
-output "alb-dns-name" {
+output "pub-alb-dns-name" {
   value = aws_lb.pub-sub-alb.dns_name
+}
+
+output "priv-alb-dns-name" {
+  value = aws_lb.priv-sub-alb.dns_name
 }

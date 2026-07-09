@@ -465,11 +465,11 @@ variable "db_port" {
   default     = 3306
 }
 
-variable "db_ingress_cidr" { // not needed since we are allowing traffic from the private subnet ALB security group to the RDS security group
-  type        = string
-  description = "CIDR block to allow inbound traffic to the RDS database security group"
-  default     = "0.0.0.0/0"
-}
+# variable "db_ingress_cidr" { // not needed since we are allowing traffic from the private subnet ALB security group to the RDS security group
+#   type        = string
+#   description = "CIDR block to allow inbound traffic to the RDS database security group"
+#   default     = "0.0.0.0/0"
+# }
 
 variable "db_egress_cidr" {
   type        = string

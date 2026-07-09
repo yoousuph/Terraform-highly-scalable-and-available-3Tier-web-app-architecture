@@ -1,5 +1,5 @@
 // Create an IAM role for the app tier instances
-resource "aws_iam_role" "ec2_role" {
+resource "aws_iam_role" "ec2-role" {
   name = var.iam_role_name
 
   assume_role_policy = jsonencode({
@@ -18,12 +18,12 @@ resource "aws_iam_role" "ec2_role" {
 
 // Attach AWS managed policy to the IAM role
 resource "aws_iam_role_policy_attachment" "s3-readonly-managed-policy" {
-  role       = aws_iam_role.ec2_role.name
+  role       = aws_iam_role.ec2-role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
 
 // Create an instance profile for the IAM role
 resource "aws_iam_instance_profile" "ec2-iam-instance-profile" {
   name = var.iam_instance_profile_name
-  role = aws_iam_role.ec2_role.name
+  role = aws_iam_role.ec2-role.name
 }

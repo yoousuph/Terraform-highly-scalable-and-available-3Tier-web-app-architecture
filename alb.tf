@@ -2,14 +2,23 @@
 # Create a new load balancer - ALB for public subnets
 resource "aws_lb" "pub-sub-alb" {
   name            = var.pub_load_balancer_name
-  subnets         = [aws_subnet.public-subnet1.id, aws_subnet.public-subnet2.id]
-  security_groups = [aws_security_group.pub-sub-alb-sg.id]
+  subnets         = [
+    aws_subnet.public-subnet1.id,
+    aws_subnet.public-subnet2.id
+    ]
 
-  depends_on = [aws_lb_target_group.pub-sub-alb-tg]
+  security_groups = [
+    aws_security_group.pub-sub-alb-sg.id
+    ]
+
+  depends_on = [
+    aws_lb_target_group.pub-sub-alb-tg
+    ]
 
   tags = {
     Name = var.pub_load_balancer_name
   }
+  
 }
 
 # Create a target group for the load balancer
@@ -48,14 +57,25 @@ resource "aws_lb_listener" "pub-sub-alb-listener" {
 # Create a new load balancer - ALB for private subnets
 resource "aws_lb" "priv-sub-alb" {
   name            = var.priv_load_balancer_name
-  subnets         = [aws_subnet.private-subnet1.id, aws_subnet.private-subnet2.id]
-  security_groups = [aws_security_group.priv-sub-alb-sg.id]
+  subnets         = [
+    aws_subnet.private-subnet1.id,
+    aws_subnet.private-subnet2.id
+    ]
 
-  depends_on = [aws_lb_target_group.priv-sub-alb-tg]
+  internal = true
+
+  security_groups = [
+    aws_security_group.priv-sub-alb-sg.id
+    ]
+
+  depends_on = [
+    aws_lb_target_group.priv-sub-alb-tg
+    ]
 
   tags = {
     Name = var.priv_load_balancer_name
   }
+
 }
 
 # Create a target group for the load balancer
