@@ -1,15 +1,25 @@
-// create s3 bucket 
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = "yoousuph-terraform-netflix-files-bucket"
+resource "aws_s3_bucket" "s3-netflix-bucket" {
+  bucket = "yoousuph-terraform-netflix-files"
 }
 
-// uploads files into the s3 bucket
-resource "aws_s3_object" "web_files" {
-  for_each = fileset("web_app", "**")
+// Sync web files from the local directory to the S3 bucket
+resource "aws_s3_object" "web-files" {
+  for_each = fileset("${path.module}/webapp/web", "**")
 
-  bucket = aws_s3_bucket.my_bucket.id
-  key    = each.value
-  source = "web_app/${each.value}"
+  bucket = aws_s3_bucket.s3-netflix-bucket.id
 
-  etag = filemd5("web_app/${each.value}")
+  key    = "web/${each.value}"
+  source = "${path.module}/webapp/web/${each.value}"
+  etag   = filemd5("${path.module}/webapp/web/${each.value}")
+}
+
+// Sync app files from the local directory to the S3 bucket
+resource "aws_s3_object" "app-files" {
+  for_each = fileset("${path.module}/webapp/app", "**")
+
+  bucket = aws_s3_bucket.s3-netflix-bucket.id
+
+  key    = "app/${each.value}"
+  source = "${path.module}/webapp/app/${each.value}"
+  etag   = filemd5("${path.module}/webapp/app/${each.value}")
 }
