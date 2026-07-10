@@ -1,14 +1,14 @@
 // PUBLIC SUBNETS ALB SECURITY GROUP
 # Create security group for public ALB
-resource "aws_security_group" "pub-sub-alb-sg" {
+resource "aws_security_group" "pub_sub_alb_sg" {
 
   # Set name and description of the security group
   name        = var.pub_sub_alb_sg_name
   description = var.pub_sub_alb_sg_name
 
   # Set the VPC ID where the security group will be created
-  vpc_id     = aws_vpc.three-tier-vpc.id
-  depends_on = [aws_vpc.three-tier-vpc] # Ensure the VPC is created before creating the security group
+  vpc_id     = aws_vpc.three_tier_vpc.id
+  depends_on = [aws_vpc.three_tier_vpc] # Ensure the VPC is created before creating the security group
 
   # Inbound Rule
   # HTTP access from anywhere
@@ -47,14 +47,14 @@ resource "aws_security_group" "pub-sub-alb-sg" {
 
 // PRIVATE SUBNETS ALB SECURITY GROUP
 # Create security group for private ALB
-resource "aws_security_group" "priv-sub-alb-sg" {
+resource "aws_security_group" "priv_sub_alb_sg" {
 
   # Set name and description of the security group
   name        = var.priv_sub_alb_sg_name
   description = var.priv_sub_alb_sg_name
   # Set the VPC ID where the security group will be created
-  vpc_id     = aws_vpc.three-tier-vpc.id
-  depends_on = [aws_vpc.three-tier-vpc] # Ensure the VPC is created before creating the security group
+  vpc_id     = aws_vpc.three_tier_vpc.id
+  depends_on = [aws_vpc.three_tier_vpc] # Ensure the VPC is created before creating the security group
 
   # Inbound Rule
   # HTTP access from anywhere

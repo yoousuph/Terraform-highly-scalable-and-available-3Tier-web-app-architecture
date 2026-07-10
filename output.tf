@@ -1,40 +1,40 @@
 # Output
-output "three-tier-vpc-id" {
-  value = aws_vpc.three-tier-vpc.id
+output "three_tier_vpc-id" {
+  value = aws_vpc.three_tier_vpc.id
 }
 
-output "public-subnet1-id" {
-  value = aws_subnet.public-subnet1.id
+output "public_subnet1_id" {
+  value = aws_subnet.public_subnet1.id
 }
 
-output "public-subnet2-id" {
-  value = aws_subnet.public-subnet2.id
+output "public_subnet2_id" {
+  value = aws_subnet.public_subnet2.id
 }
 
-output "private-subnet1-id" {
-  value = aws_subnet.private-subnet1.id
+output "private_subnet1_id" {
+  value = aws_subnet.private_subnet1.id
 }
 
-output "private-subnet2-id" {
-  value = aws_subnet.private-subnet2.id
+output "private_subnet2_id" {
+  value = aws_subnet.private_subnet2.id
 }
 
-output "private-subnet3-id" {
-  value = aws_subnet.private-subnet3.id
+output "private_subnet3_id" {
+  value = aws_subnet.private_subnet3.id
 }
 
-output "private-subnet4-id" {
-  value = aws_subnet.private-subnet4.id
+output "private_subnet4_id" {
+  value = aws_subnet.private_subnet4.id
 }
 
-output "vpc-igw-id" {
-  value = aws_internet_gateway.vpc-igw.id
+output "vpc_igw_id" {
+  value = aws_internet_gateway.vpc_igw.id
 }
 
 output "pub-alb-dns-name" {
-  value = aws_lb.pub-sub-alb.dns_name
+  value = aws_lb.pub_sub_alb.dns_name
 }
 
 output "priv-alb-dns-name" {
-  value = aws_lb.priv-sub-alb.dns_name
+  value = aws_lb.priv_sub_alb.dns_name
 }

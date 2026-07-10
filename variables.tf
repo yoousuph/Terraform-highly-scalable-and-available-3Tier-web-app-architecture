@@ -269,19 +269,13 @@ variable "priv_sub_asg_lt_instance_type" {
   default     = "t2.micro"
 }
 
-// LAUNCH TEMPLATE FOR AUTOSCALLING GROUP KEY PAIR
-variable "pub_sub_asg_lt_key" {
+// LAUNCH TEMPLATE'S AUTOSCALLING GROUP KEY PAIR
+
+variable "lt_asg_kp" {
   type        = string
   description = "Key Pair"
-  default     = "web-key-pair"
+  default     = "pub_key_pair"
 }
-
-variable "priv_sub_asg_lt_key" {
-  type        = string
-  description = "Key Pair"
-  default     = "app-key-pair"
-}
-
 
 // ------------------- TARGET GROUP VARIABLES -----------------
 // INSTANCES TARGET GROUP
