@@ -1,12 +1,12 @@
 resource "aws_security_group" "db_sg" {
   name        = var.db_sg_name
-  description = "Security group for RDS instance"
+  description = "Identifier for the RDS database instance"
   vpc_id      = aws_vpc.three_tier_vpc.id
 
   ingress {
     from_port       = var.db_port
     to_port         = var.db_port
-    protocol        = "tcp"
+    protocol        = var.tcp_protocol
     security_groups = [aws_security_group.pub_sub_alb_sg.id]
   }
 
@@ -17,3 +17,4 @@ resource "aws_security_group" "db_sg" {
     cidr_blocks = [var.db_egress_cidr]
   }
 }
+

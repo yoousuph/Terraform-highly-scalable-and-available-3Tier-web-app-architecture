@@ -16,7 +16,7 @@ resource "aws_security_group" "pub_sub_alb_sg" {
     description = "Allow HTTP Traffic"
     from_port   = var.pub_sub_http_port
     to_port     = var.pub_sub_http_port
-    protocol    = "tcp"
+    protocol    = var.tcp_protocol
     cidr_blocks = var.pub_sub_alb_sg_ingress_cidr_blocks
   }
 
@@ -25,7 +25,7 @@ resource "aws_security_group" "pub_sub_alb_sg" {
     description = "Allow SSH Traffic"
     from_port   = var.pub_sub_ssh_port
     to_port     = var.pub_sub_ssh_port
-    protocol    = "tcp"
+    protocol    = var.tcp_protocol
     cidr_blocks = var.pub_sub_alb_sg_ingress_cidr_blocks
   }
 
@@ -52,6 +52,7 @@ resource "aws_security_group" "priv_sub_alb_sg" {
   # Set name and description of the security group
   name        = var.priv_sub_alb_sg_name
   description = var.priv_sub_alb_sg_name
+
   # Set the VPC ID where the security group will be created
   vpc_id     = aws_vpc.three_tier_vpc.id
   depends_on = [aws_vpc.three_tier_vpc] # Ensure the VPC is created before creating the security group
@@ -62,7 +63,7 @@ resource "aws_security_group" "priv_sub_alb_sg" {
     description = "Allow HTTP Traffic"
     from_port   = var.priv_sub_http_port
     to_port     = var.priv_sub_http_port
-    protocol    = "tcp"
+    protocol    = var.tcp_protocol
     cidr_blocks = var.priv_sub_alb_sg_ingress_cidr_blocks
   }
 
@@ -71,7 +72,7 @@ resource "aws_security_group" "priv_sub_alb_sg" {
     description = "Allow SSH Traffic"
     from_port   = var.priv_sub_ssh_port
     to_port     = var.priv_sub_ssh_port
-    protocol    = "tcp"
+    protocol    = var.tcp_protocol
     cidr_blocks = var.priv_sub_alb_sg_ingress_cidr_blocks
   }
 

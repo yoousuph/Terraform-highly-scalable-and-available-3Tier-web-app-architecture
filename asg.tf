@@ -4,7 +4,7 @@ resource "aws_launch_template" "pub_sub_asg_lt" {
   name                   = var.pub_sub_asg_lt_name
   image_id               = var.pub_sub_asg_lt_ami
   instance_type          = var.pub_sub_asg_lt_instance_type
-  key_name               = aws_key_pair.pub_key.key_name
+  key_name               = aws_key_pair.three_tier_pub_key.key_name
   vpc_security_group_ids = [aws_security_group.pub_sub_asg_lt_sg.id]
   user_data = base64encode(
     templatefile("${path.module}/web_ud.sh.tpl", {
@@ -53,7 +53,7 @@ resource "aws_launch_template" "priv_sub_asg_lt" {
   name                   = var.priv_sub_asg_lt_name
   image_id               = var.priv_sub_asg_lt_ami
   instance_type          = var.priv_sub_asg_lt_instance_type
-  key_name               = var.pub_key_asg_lt
+  key_name               = aws_key_pair.three_tier_pub_key.key_name
   vpc_security_group_ids = [aws_security_group.priv_sub_asg_lt_sg.id]
   user_data              = filebase64("${path.root}/app_ud.sh")
 
