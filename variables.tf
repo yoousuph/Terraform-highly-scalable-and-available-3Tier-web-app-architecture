@@ -19,6 +19,7 @@ variable "aws_region" {
   type    = string
 }
 
+
 // -------------------------------- AZ VARIABLES ----------------------------------
 // AVAILABILITY ZONE 1
 variable "availability_zone-1" {
@@ -254,19 +255,19 @@ variable "db_egress_cidr" {
   default     = "0.0.0.0/0"
 }
 
-
-// --------------------------- TARGET GROUP VARIABLES ----------------------------
-// INSTANCES TARGET GROUP
-variable "pub_target_group_name" {
+// --------------------- IAM ROLE VARIABLES ---------------------
+variable "iam_role_name" {
   type        = string
-  description = "Name of the public subnet target group"
-  default     = "pub-sub-alb-tg"
+  description = "Name of the IAM role for EC2 instances"
+  default     = "ec2-s3-readonly-role"
 }
 
-variable "priv_target_group_name" {
+
+// ------------------------ KEY PAIR VARIABLES -----------------------
+variable "three_tier_pub_key" {
   type        = string
-  description = "Name of the private subnet target group"
-  default     = "priv-sub-alb-tg"
+  description = "Key Pair"
+  default     = "three-tier-kp"
 }
 
 
@@ -285,60 +286,18 @@ variable "priv_load_balancer_name" {
   default     = "private-subnet-alb"
 }
 
-
-// --------------------- LAUNCH TEMPLATE VARIABLES --------------------------
-// PUBLIC SUBNET LT FOR ASG (NAME, AMI, & INSTANCE-TYPE)
-variable "pub_sub_asg_lt_name" {
+// --------------------------- TARGET GROUP VARIABLES ----------------------------
+// INSTANCES TARGET GROUP
+variable "pub_target_group_name" {
   type        = string
-  description = "Name of the Launch Template"
-  default     = "public-subnet-asg-lt"
+  description = "Name of the public subnet target group"
+  default     = "pub-sub-alb-tg"
 }
 
-variable "pub_sub_asg_lt_ami" {
+variable "priv_target_group_name" {
   type        = string
-  description = "Amazon Linux 2 Ami ID"
-  default     = "ami-06067086cf86c58e6"
-}
-
-variable "pub_sub_asg_lt_instance_type" {
-  type        = string
-  description = "T2 Micro Instance Type"
-  default     = "t2.micro"
-}
-
-// PUBLIC SUBNET LT FOR ASG (NAME, AMI, & INSTANCE-TYPE)
-variable "priv_sub_asg_lt_name" {
-  type        = string
-  description = "Name of the Launch Template"
-  default     = "private-subnet-asg-lt"
-}
-
-variable "priv_sub_asg_lt_ami" {
-  type        = string
-  description = "Amazon Linux 2 Ami ID"
-  default     = "ami-06067086cf86c58e6"
-}
-
-variable "priv_sub_asg_lt_instance_type" {
-  type        = string
-  description = "T2 Micro Instance Type"
-  default     = "t2.micro"
-}
-
-
-// ------------------------ INSTANCES PROFILE VARIABLES ---------------------
-variable "iam_instance_profile_name" {
-  type        = string
-  description = "Name of the IAM instance profile for EC2 instances"
-  default     = "ec2-s3-readonly-profile"
-}
-
-
-// ------------------------ INSTANCES DHCP ENABLE VARIABLES ---------------------
-// INSTANCE AUTO ASSIGN IP
-variable "auto_assign_ip" {
-  default = "true"
-  type    = bool
+  description = "Name of the private subnet target group"
+  default     = "priv-sub-alb-tg"
 }
 
 
@@ -390,6 +349,54 @@ variable "priv_sub_asg_des_cap" {
   type        = number
   description = "ASG Desired Capacity"
   default     = 2
+}
+
+
+// ------------------------ INSTANCES PROFILE VARIABLES ---------------------
+variable "iam_instance_profile_name" {
+  type        = string
+  description = "Name of the IAM instance profile for EC2 instances"
+  default     = "ec2-s3-readonly-profile"
+}
+
+
+// --------------------- LAUNCH TEMPLATE VARIABLES --------------------------
+// PUBLIC SUBNET LT FOR ASG (NAME, AMI, & INSTANCE-TYPE)
+variable "pub_sub_asg_lt_name" {
+  type        = string
+  description = "Name of the Launch Template"
+  default     = "public-subnet-asg-lt"
+}
+
+variable "pub_sub_asg_lt_ami" {
+  type        = string
+  description = "Amazon Linux 2 Ami ID"
+  default     = "ami-06067086cf86c58e6"
+}
+
+variable "pub_sub_asg_lt_instance_type" {
+  type        = string
+  description = "T2 Micro Instance Type"
+  default     = "t2.micro"
+}
+
+// PUBLIC SUBNET LT FOR ASG (NAME, AMI, & INSTANCE-TYPE)
+variable "priv_sub_asg_lt_name" {
+  type        = string
+  description = "Name of the Launch Template"
+  default     = "private-subnet-asg-lt"
+}
+
+variable "priv_sub_asg_lt_ami" {
+  type        = string
+  description = "Amazon Linux 2 Ami ID"
+  default     = "ami-06067086cf86c58e6"
+}
+
+variable "priv_sub_asg_lt_instance_type" {
+  type        = string
+  description = "T2 Micro Instance Type"
+  default     = "t2.micro"
 }
 
 
@@ -454,6 +461,7 @@ variable "db_instance_class" {
   default     = "db.t3.micro"
 }
 
+
 // ------------------------- RDS DATABASE SUBNET GROUP VARIABLES ---------------------------
 // RDS DATABASE SUBNET GROUP (NAME & DESCRIPTION)
 variable "db_subnet_group_name" {
@@ -463,17 +471,25 @@ variable "db_subnet_group_name" {
 }
 
 
-// ---------------------------- PORT VARIABLES ---------------------------
+// ------------------------ INSTANCES DHCP ENABLE VARIABLES ---------------------
+// INSTANCE AUTO ASSIGN IP
+variable "auto_assign_ip" {
+  default = "true"
+  type    = bool
+}
+
+
+// ------------------------------- PORT VARIABLES ------------------------------
 // PUBLIC SUBNET TRAFFIC PORTS (HTTP AND SSH)
 variable "pub_sub_http_port" {
   type        = number
-  description = "Port for HTTP traffic in the public subnet"
+  description = "Allow HTTP Traffic"
   default     = 80
 }
 
 variable "pub_sub_ssh_port" {
   type        = number
-  description = "Port for SSH traffic in the public subnet"
+  description = "Allow SSH Traffic"
   default     = 22
 }
 
@@ -492,35 +508,20 @@ variable "http_protocol" {
 // PRIVATE SUBNET TRAFFIC PORTS (HTTP AND SSH)
 variable "priv_sub_http_port" {
   type        = number
-  description = "Port for HTTP traffic in the private subnet"
+  description = "Allow HTTP Traffic"
   default     = 4000
 }
 
 variable "priv_sub_ssh_port" {
   type        = number
-  description = "Port for SSH traffic in the private subnet"
+  description = "Allow SSH Traffic"
   default     = 22
 }
 
 // PRIVATE SUBNET TRAFFIC PORTS FOR DATABASE (HTTP AND SSH)
 variable "priv_db_sub_mysql_port" {
   type        = number
-  description = "Port for HTTP traffic in the private subnet"
+  description = "Allow MYSQL Traffic"
   default     = 3306
 }
 
-
-// ------------------------ KEY PAIR VARIABLES -----------------------
-variable "three_tier_pub_key" {
-  type        = string
-  description = "Key Pair"
-  default     = "three-tier-kp"
-}
-
-
-// --------------------- IAM ROLE VARIABLES ---------------------
-variable "iam_role_name" {
-  type        = string
-  description = "Name of the IAM role for EC2 instances"
-  default     = "ec2-s3-readonly-role"
-}
