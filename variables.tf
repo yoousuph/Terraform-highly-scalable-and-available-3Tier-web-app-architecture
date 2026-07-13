@@ -22,13 +22,13 @@ variable "aws_region" {
 
 // -------------------------------- AZ VARIABLES ----------------------------------
 // AVAILABILITY ZONE 1
-variable "availability_zone-1" {
+variable "availability_zone_1" {
   default = "us-east-1a"
   type    = string
 }
 
 // AVAILABILITY ZONE 2
-variable "availability_zone-2" {
+variable "availability_zone_2" {
   default = "us-east-1b"
   type    = string
 }

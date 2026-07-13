@@ -12,7 +12,7 @@ resource "aws_vpc" "three_tier_vpc" {
 resource "aws_subnet" "public_subnet1" {
   vpc_id                  = aws_vpc.three_tier_vpc.id
   cidr_block              = var.public_sub1_cidr
-  availability_zone       = var.availability_zone-1
+  availability_zone       = var.availability_zone_1
   map_public_ip_on_launch = true
 
   tags = {
@@ -24,7 +24,7 @@ resource "aws_subnet" "public_subnet1" {
 resource "aws_subnet" "public_subnet2" {
   vpc_id                  = aws_vpc.three_tier_vpc.id
   cidr_block              = var.public_sub2_cidr
-  availability_zone       = var.availability_zone-2
+  availability_zone       = var.availability_zone_2
   map_public_ip_on_launch = true
 
   tags = {
@@ -36,7 +36,7 @@ resource "aws_subnet" "public_subnet2" {
 resource "aws_subnet" "private_subnet1" {
   vpc_id                  = aws_vpc.three_tier_vpc.id
   cidr_block              = var.private_sub1_cidr
-  availability_zone       = var.availability_zone-1
+  availability_zone       = var.availability_zone_1
   map_public_ip_on_launch = false
 
   tags = {
@@ -48,7 +48,7 @@ resource "aws_subnet" "private_subnet1" {
 resource "aws_subnet" "private_subnet2" {
   vpc_id                  = aws_vpc.three_tier_vpc.id
   cidr_block              = var.private_sub2_cidr
-  availability_zone       = var.availability_zone-2
+  availability_zone       = var.availability_zone_2
   map_public_ip_on_launch = false
 
   tags = {
@@ -60,7 +60,7 @@ resource "aws_subnet" "private_subnet2" {
 resource "aws_subnet" "private_subnet3" {
   vpc_id                  = aws_vpc.three_tier_vpc.id
   cidr_block              = var.private_sub3_cidr
-  availability_zone       = var.availability_zone-1
+  availability_zone       = var.availability_zone_1
   map_public_ip_on_launch = false
 
   tags = {
@@ -72,7 +72,7 @@ resource "aws_subnet" "private_subnet3" {
 resource "aws_subnet" "private_subnet4" {
   vpc_id                  = aws_vpc.three_tier_vpc.id
   cidr_block              = var.private_sub4_cidr
-  availability_zone       = var.availability_zone-2
+  availability_zone       = var.availability_zone_2
   map_public_ip_on_launch = false
 
   tags = {

@@ -45,18 +45,14 @@ http {
 
         #react app and front end files
         location / {
-        root    /home/ec2-user/frontend_ui/build;
+        root    /usr/share/nginx/html/;
         index index.html index.htm
         try_files $uri /index.html;
         }
 
         #proxy for internal lb
         location /api/{
-                proxy_pass ${local.internal_alb_dns}:80/;
+                proxy_pass ${internal_alb_dns}:80/;
         }
-
-
     }
-
-
 }

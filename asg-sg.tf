@@ -7,18 +7,18 @@ resource "aws_security_group" "pub_sub_asg_lt_sg" {
   # Inbound Rules
   # HTTP access from anywhere
   ingress {
-    from_port       = var.pub_sub_http_port
-    to_port         = var.pub_sub_http_port
-    protocol        = var.tcp_protocol
-    cidr_blocks     = var.pub_sub_asg_lt_sg_ingress_cidr_blocks
+    from_port   = var.pub_sub_http_port
+    to_port     = var.pub_sub_http_port
+    protocol    = var.tcp_protocol
+    cidr_blocks = var.pub_sub_asg_lt_sg_ingress_cidr_blocks
   }
 
   # SSH access from anywhere
   ingress {
-    from_port       = var.pub_sub_ssh_port
-    to_port         = var.pub_sub_ssh_port
-    protocol        = var.tcp_protocol
-    cidr_blocks     = var.pub_sub_asg_lt_sg_ingress_cidr_blocks
+    from_port   = var.pub_sub_ssh_port
+    to_port     = var.pub_sub_ssh_port
+    protocol    = var.tcp_protocol
+    cidr_blocks = var.pub_sub_asg_lt_sg_ingress_cidr_blocks
   }
 
   # Outbound Rules
@@ -40,18 +40,18 @@ resource "aws_security_group" "priv_sub_asg_lt_sg" {
   # Inbound Rules
   # HTTP access from anywhere
   ingress {
-    from_port       = var.priv_sub_http_port
-    to_port         = var.priv_sub_http_port
-    protocol        = var.tcp_protocol
-    cidr_blocks     = var.priv_sub_asg_lt_sg_ingress_cidr_blocks
+    from_port   = var.priv_sub_http_port
+    to_port     = var.priv_sub_http_port
+    protocol    = var.tcp_protocol
+    cidr_blocks = var.priv_sub_asg_lt_sg_ingress_cidr_blocks
   }
 
   # SSH access from anywhere
   ingress {
-    from_port       = var.priv_sub_ssh_port
-    to_port         = var.priv_sub_ssh_port
-    protocol        = var.tcp_protocol
-    cidr_blocks     = var.pub_sub_asg_lt_sg_ingress_cidr_blocks
+    from_port   = var.priv_sub_ssh_port
+    to_port     = var.priv_sub_ssh_port
+    protocol    = var.tcp_protocol
+    cidr_blocks = var.pub_sub_asg_lt_sg_ingress_cidr_blocks
   }
 
   # Outbound Rules

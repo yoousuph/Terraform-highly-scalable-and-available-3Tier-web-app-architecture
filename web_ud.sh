@@ -1,48 +1,61 @@
 #!/bin/bash
 
-# Use this for your user data (script from top to bottom)
+# Exit immediately if a command fails
+set -e
+
+# Log all output
 exec > >(tee /var/log/user-data.log | logger -t user-data) 2>&1
 
-# install Nginx on the Amazon Linux 2023
-sudo dnf update -y
+# user data start
+echo "========== User Data Started =========="
 
-# Install Nginx
-sudo dnf install nginx -y
+# Update packages
+dnf update -y
 
-# install nvm
-curl -o- https://raw.githubusercontent.com/yoousuph/aws_3tier_architecture/main/install.sh | bash
-source ~/.bashrc
+# Install Nginx and start
+dnf install -y nginx
+systemctl enable nginx
+systemctl start nginx
+
+# Install NVM
+curl -fsSL curl -fsSL https://raw.githubusercontent.com/yoousuph/High-Availability-and-Scalability-in-a-3-Tier-Web-Architecture/main/install.sh | bash
+
+export NVM_DIR="/root/.nvm"
+
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+    . "$NVM_DIR/nvm.sh"
+else
+    echo "ERROR: NVM installation failed."
+    exit 1
+fi
+
+# Install Node.js
 nvm install 16
 nvm use 16
+node -v
+npm -v
 
-# Remove all default nnginx UI files
-sudo rm -rf /usr/share/nginx/html/
+# Prepare web directory
+mkdir -p web
 
-# Copy the web files from the S3 bucket to the Nginx default directory
-aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/web/ /usr/share/nginx/html/ --recursive
+# Download application files
+aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/web/ /home/ec2-user/web/ --recursive
 
-# Remove the nginx.conf file
-sudo rm -rf /usr/share/nginx/html/
-
-# copy nginx.conf file to server
-aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/nginx.conf /etc/nginx/nginx.conf --recursive
-
-# go into the project folder
-cd /usr/share/nginx/html/
-
-# install node js
+# Build application
+cd /home/ec2-user/web/
 npm install
-
-# run build
 npm run build
 
-# Start Nginx service
-sudo systemctl start nginx
+# Remove existing files in nginx directory
+rm -rf /usr/share/nginx/html/*
 
-# Enable Nginx to start on boot
-sudo systemctl enable nginx
+# Copy built application to nginx directory
+cp -r /home/ec2-user/web/build/* /usr/share/nginx/html/
 
-# Restart Nginx to apply changes
-sudo systemctl restart nginx
+# Download rendered nginx.conf
+aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/nginx.conf /etc/nginx/nginx.conf
 
+# Restart nginx
+systemctl restart nginx
 
+echo "========== User Data Completed Successfully =========="

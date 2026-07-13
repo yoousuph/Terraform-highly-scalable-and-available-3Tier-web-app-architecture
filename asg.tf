@@ -6,7 +6,7 @@ resource "aws_launch_template" "pub_sub_asg_lt" {
   instance_type          = var.pub_sub_asg_lt_instance_type
   key_name               = aws_key_pair.three_tier_pub_key.key_name
   vpc_security_group_ids = [aws_security_group.pub_sub_asg_lt_sg.id]
-  user_data = filebase64("${path.root}/web_ud.sh")
+  user_data              = filebase64("${path.root}/web_ud.sh")
 
   iam_instance_profile { // not requiered as we are using the default instance profile for the public subnet instances
     name = aws_iam_instance_profile.ec2_iam_instance_profile.name
