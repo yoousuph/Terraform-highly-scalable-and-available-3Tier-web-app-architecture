@@ -1,5 +1,7 @@
 resource "aws_s3_bucket" "s3_netflix_bucket" {
   bucket = "yoousuph-terraform-netflix-files"
+
+  depends_on = [ aws_vpc.three_tier_vpc ]
 }
 
 // Sync web files from the local directory to the S3 bucket
@@ -22,4 +24,15 @@ resource "aws_s3_object" "app_files" {
   key    = "app/${each.value}"
   source = "${path.module}/webapp/app/${each.value}"
   etag   = filemd5("${path.module}/webapp/app/${each.value}")
+}
+
+// Sync nginx file from the local directory to the S3 bucket
+resource "aws_s3_object" "app_files" {
+  for_each = fileset("${path.module}/webapp", "**")
+
+  bucket = aws_s3_bucket.s3_netflix_bucket.id
+
+  key    = "nginx.conf"
+  source = "${path.module}/webapp/nginx.conf"
+  etag   = filemd5("${path.module}/webapp/nginx.conf")
 }
