@@ -1,4 +1,3 @@
-
 user nginx;
 worker_processes auto;
 error_log /var/log/nginx/error.log;
@@ -51,8 +50,13 @@ http {
         }
 
         #proxy for internal lb
-        location /api/{
-                proxy_pass ${internal_alb_dns}:80/;
+        location /app/{
+                proxy_pass http://${internal_alb_dns}:80/;
         }
     }
 }
+
+
+
+
+

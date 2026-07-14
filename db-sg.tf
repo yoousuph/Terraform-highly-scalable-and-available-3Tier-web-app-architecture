@@ -11,9 +11,9 @@ resource "aws_security_group" "db_sg" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port   = var.any_port
+    to_port     = var.any_port
+    protocol    = var.any_protocol
     cidr_blocks = [var.db_egress_cidr]
   }
 }

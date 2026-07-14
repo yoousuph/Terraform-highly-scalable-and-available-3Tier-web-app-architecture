@@ -51,7 +51,7 @@ resource "aws_launch_template" "priv_sub_asg_lt" {
   instance_type          = var.priv_sub_asg_lt_instance_type
   key_name               = aws_key_pair.three_tier_pub_key.key_name
   vpc_security_group_ids = [aws_security_group.priv_sub_asg_lt_sg.id]
-  user_data              = filebase64("${path.root}/app_ud.sh")
+  user_data              = base64encode(local.app_user_data)
 
   iam_instance_profile {
     name = aws_iam_instance_profile.ec2_iam_instance_profile.name

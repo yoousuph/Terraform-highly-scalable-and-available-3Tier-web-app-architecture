@@ -525,3 +525,17 @@ variable "priv_db_sub_mysql_port" {
   default     = 3306
 }
 
+// ANY PORT
+variable "any_port" {
+  type        = number
+  description = "Allow any port traffic"
+  default     = 0
+}
+
+// ANY PROTOCOL
+variable "any_protocol" {
+  type        = string
+  description = "Allow any protocol traffic"
+  default     = "-1"
+}
+

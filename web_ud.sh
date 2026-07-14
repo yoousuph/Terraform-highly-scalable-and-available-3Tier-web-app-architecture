@@ -1,54 +1,33 @@
 #!/bin/bash
 
-# Stop on first error
-set -e
+set -euo pipefail
 
-# Log everything
+# Log user data output
 exec > >(tee /var/log/user-data.log | logger -t user-data) 2>&1
 
-echo "========== USER DATA STARTED =========="
+# Switch to root user
+sudo su
 
-# Update packages
+# Update system
 dnf update -y
 
-# Install required packages
-dnf install -y nginx awscli git
+# Install Nginx and AWS CLI
+dnf install -y nginx awscli
 
-# Enable and start nginx
+# Enable and start Nginx
 systemctl enable nginx
 systemctl start nginx
 
-# Install NVM
-curl -fsSL https://raw.githubusercontent.com/yoousuph/High-Availability-and-Scalability-in-a-3-Tier-Web-Architecture/main/install.sh | bash
-
-# Load NVM
-export NVM_DIR="/root/.nvm"
-
-if [ -s "$NVM_DIR/nvm.sh" ]; then
-    . "$NVM_DIR/nvm.sh"
-else
-    echo "ERROR: NVM installation failed."
-    exit 1
-fi
-
-# Install Node.js 16
-nvm install 16
-nvm use 16
-nvm alias default 16
-
-echo "Node version:"
+# install nodejs
+dnf install -y nodejs
 node -v
-
-echo "NPM version:"
 npm -v
 
 # Create application directory
-mkdir -p /home/ec2-user/web
+mkdir /home/ec2-user/web
 
 # Download application files from S3
-aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/web/ \
-    /home/ec2-user/web/ \
-    --recursive
+aws s3 cp s3://yoousuph-terraform-netflix-files/web/ /home/ec2-user/web/ --recursive
 
 # Change to application directory
 cd /home/ec2-user/web
@@ -66,11 +45,7 @@ rm -rf /usr/share/nginx/html/*
 cp -r /home/ec2-user/web/build/* /usr/share/nginx/html/
 
 # Download custom nginx configuration
-aws s3 cp \
-    s3://yoousuph-terraform-netflix-files/webapp/nginx.conf \
-    /etc/nginx/nginx.conf
+aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/nginx.conf /etc/nginx/nginx.conf
 
 # Restart nginx
 systemctl restart nginx
-
-echo "========== USER DATA COMPLETED =========="

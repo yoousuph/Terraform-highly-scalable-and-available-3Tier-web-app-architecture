@@ -23,9 +23,9 @@ resource "aws_security_group" "pub_sub_alb_sg" {
   # Outbound Rule
   # Allow all egress traffic
   egress {
-    from_port   = "0"
-    to_port     = "0"
-    protocol    = "-1"
+    from_port   = var.any_port
+    to_port     = var.any_port
+    protocol    = var.any_protocol
     cidr_blocks = var.pub_sub_alb_sg_egress_cidr_blocks
   }
 
@@ -61,9 +61,9 @@ resource "aws_security_group" "priv_sub_alb_sg" {
   # Outbound Rule
   # Allow all egress traffic
   egress {
-    from_port   = "0"
-    to_port     = "0"
-    protocol    = "-1"
+    from_port   = var.any_port
+    to_port     = var.any_port
+    protocol    = var.any_protocol
     cidr_blocks = var.priv_sub_alb_sg_egress_cidr_blocks
   }
 
