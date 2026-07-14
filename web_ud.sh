@@ -1,25 +1,27 @@
 #!/bin/bash
 
-# Exit immediately if a command fails
+# Stop on first error
 set -e
 
-# Log all output
+# Log everything
 exec > >(tee /var/log/user-data.log | logger -t user-data) 2>&1
 
-# user data start
-echo "========== User Data Started =========="
+echo "========== USER DATA STARTED =========="
 
 # Update packages
 dnf update -y
 
-# Install Nginx and start
-dnf install -y nginx
+# Install required packages
+dnf install -y nginx awscli git
+
+# Enable and start nginx
 systemctl enable nginx
 systemctl start nginx
 
 # Install NVM
-curl -fsSL curl -fsSL https://raw.githubusercontent.com/yoousuph/High-Availability-and-Scalability-in-a-3-Tier-Web-Architecture/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/yoousuph/High-Availability-and-Scalability-in-a-3-Tier-Web-Architecture/main/install.sh | bash
 
+# Load NVM
 export NVM_DIR="/root/.nvm"
 
 if [ -s "$NVM_DIR/nvm.sh" ]; then
@@ -29,33 +31,46 @@ else
     exit 1
 fi
 
-# Install Node.js
+# Install Node.js 16
 nvm install 16
 nvm use 16
+nvm alias default 16
+
+echo "Node version:"
 node -v
+
+echo "NPM version:"
 npm -v
 
-# Prepare web directory
-mkdir -p web
+# Create application directory
+mkdir -p /home/ec2-user/web
 
-# Download application files
-aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/web/ /home/ec2-user/web/ --recursive
+# Download application files from S3
+aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/web/ \
+    /home/ec2-user/web/ \
+    --recursive
 
-# Build application
-cd /home/ec2-user/web/
+# Change to application directory
+cd /home/ec2-user/web
+
+# Install dependencies
 npm install
+
+# Build the React application
 npm run build
 
-# Remove existing files in nginx directory
+# Remove default nginx files
 rm -rf /usr/share/nginx/html/*
 
-# Copy built application to nginx directory
+# Copy React build output
 cp -r /home/ec2-user/web/build/* /usr/share/nginx/html/
 
-# Download rendered nginx.conf
-aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/nginx.conf /etc/nginx/nginx.conf
+# Download custom nginx configuration
+aws s3 cp \
+    s3://yoousuph-terraform-netflix-files/webapp/nginx.conf \
+    /etc/nginx/nginx.conf
 
 # Restart nginx
 systemctl restart nginx
 
-echo "========== User Data Completed Successfully =========="
+echo "========== USER DATA COMPLETED =========="

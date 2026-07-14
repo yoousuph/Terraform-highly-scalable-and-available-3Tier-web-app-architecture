@@ -19,7 +19,7 @@ resource "aws_iam_role" "ec2_role" {
 // Attach AWS managed policy to the IAM role
 resource "aws_iam_role_policy_attachment" "s3_readonly_managed_policy" {
   role       = aws_iam_role.ec2_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
 // Create an instance profile for the IAM role
