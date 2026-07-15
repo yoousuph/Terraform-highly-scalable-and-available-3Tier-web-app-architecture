@@ -37,6 +37,7 @@ resource "aws_route_table_association" "pub_sub2_rt_ass" {
 resource "aws_route_table" "priv_rt" {
   vpc_id = aws_vpc.three_tier_vpc.id
 
+  # Create a default route for the NAT gateway with destination 0.0.0.0/0
   route {
     cidr_block = var.private_rt_cidr
     gateway_id = aws_nat_gateway.vpc_ngw.id

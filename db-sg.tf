@@ -7,7 +7,7 @@ resource "aws_security_group" "db_sg" {
     from_port       = var.db_port
     to_port         = var.db_port
     protocol        = var.tcp_protocol
-    security_groups = [aws_security_group.pub_sub_alb_sg.id]
+    security_groups = [aws_security_group.priv_sub_asg_lt_sg.id]
   }
 
   egress {

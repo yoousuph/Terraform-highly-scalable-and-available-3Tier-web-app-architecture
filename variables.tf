@@ -149,7 +149,7 @@ variable "private_rt_name" {
 
 variable "private_rt_cidr" {
   type        = string
-  description = "CIDR block to route taffic from private subnet to natgateway"
+  description = "CIDR block to route taffic from private subnet to nat-gateway"
   default     = "0.0.0.0/0"
 }
 

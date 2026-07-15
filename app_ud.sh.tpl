@@ -10,7 +10,7 @@ dnf update -y
 dnf install -y nodejs mariadb105
 
 # login to mysql
-mysql -h ${rds_endpoint} -p ${db_port} -u ${db_username} -p ${db_password}
+mysql -h ${rds_endpoint} -P ${db_port} -u ${db_username} -p ${db_password}
 
 # create database
 CREATE DATABASE appdb;
