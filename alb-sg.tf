@@ -55,7 +55,8 @@ resource "aws_security_group" "priv_sub_alb_sg" {
     from_port   = var.priv_sub_http_port
     to_port     = var.priv_sub_http_port
     protocol    = var.tcp_protocol
-    cidr_blocks = var.priv_sub_alb_sg_ingress_cidr_blocks
+    # cidr_blocks = var.priv_sub_alb_sg_ingress_cidr_blocks
+    security_groups = [aws_security_group.pub_sub_asg_lt_sg.id]
   }
 
   # Outbound Rule

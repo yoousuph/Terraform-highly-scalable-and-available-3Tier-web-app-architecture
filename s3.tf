@@ -1,3 +1,4 @@
+// Create S3 bucket
 resource "aws_s3_bucket" "s3_netflix_bucket" {
   bucket = "yoousuph-terraform-netflix-files"
 }
