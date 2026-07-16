@@ -8,9 +8,9 @@ locals {
 # locals for database login credentials
 locals {
   app_user_data = templatefile("${path.module}/app_ud.sh.tpl", {
-    rds_endpoint = aws_db_instance.db_instance.endpoint
-    db_username  = aws_db_instance.db_instance.username
-    db_password  = aws_db_instance.db_instance.password
-    db_port      = aws_db_instance.db_instance.port
+    rds_address = aws_db_instance.db_instance.address
+    db_username = aws_db_instance.db_instance.username
+    db_password = aws_db_instance.db_instance.password
+    db_port     = aws_db_instance.db_instance.port
   })
 }
