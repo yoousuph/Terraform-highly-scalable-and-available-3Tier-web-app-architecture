@@ -4,10 +4,10 @@ terraform {
 
   // s3 statefile locking
   backend "s3" {
-    bucket = "three-tier-tf-state-file"
-    key    = "Terraform-highly-scalable-and-available-3Tier-web-app-architecture/terrafom.tfstate"
-    region = "us-east-1"
-    encrypt = true
+    bucket       = "three-tier-tf-state-file"
+    key          = "Terraform-highly-scalable-and-available-3Tier-web-app-architecture/terrafom.tfstate"
+    region       = "us-east-1"
+    encrypt      = true
     use_lockfile = true
   }
 

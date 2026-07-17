@@ -32,3 +32,12 @@ resource "aws_s3_object" "nginx_file" {
   content      = local.nginx_conf
   content_type = "text/plain"
 }
+
+// Copy nginx file from the local directory to the S3 bucket
+resource "aws_s3_object" "db_config_file" {
+  bucket       = aws_s3_bucket.s3_netflix_bucket.id
+  key          = "DbConfig.js"
+  content      = local.db_config
+  content_type = "text/plain"
+  etag         = md5(local.db_config)
+}

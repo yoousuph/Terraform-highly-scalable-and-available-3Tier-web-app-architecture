@@ -34,7 +34,7 @@ echo "Waiting for RDS..."
 
 until mysqladmin \
     -h "${rds_address}" \
-    -P "${db_port}" \
+    -P "${rds_port}" \
     -u "${db_username}" \
     -p"${db_password}" \
     ping --silent
@@ -51,7 +51,7 @@ echo "RDS is ready."
 
 MYSQL_PWD="${db_password}" mysql \
     -h "${rds_address}" \
-    -P "${db_port}" \
+    -P "${rds_port}" \
     -u "${db_username}" <<EOF
 
 CREATE DATABASE IF NOT EXISTS appdb;

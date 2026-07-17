@@ -9,8 +9,19 @@ locals {
 locals {
   app_user_data = templatefile("${path.module}/app_ud.sh.tpl", {
     rds_address = aws_db_instance.db_instance.address
+    rds_port    = aws_db_instance.db_instance.port
     db_username = aws_db_instance.db_instance.username
     db_password = aws_db_instance.db_instance.password
-    db_port     = aws_db_instance.db_instance.port
+  })
+}
+
+# 
+locals {
+  db_config = templatefile("${path.module}/webapp/app/DbConfig.js.tpl", {
+    rds_address = aws_db_instance.db_instance.address
+    rds_port    = aws_db_instance.db_instance.port
+    db_username = aws_db_instance.db_instance.username
+    db_password = aws_db_instance.db_instance.password
+    db_name     = aws_db_instance.db_instance.db_name
   })
 }

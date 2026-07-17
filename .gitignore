@@ -5,6 +5,7 @@
 *.tfstate
 *.tfstate.*
 git inbit
+
 # Variable files containing secrets
 *.tfvars
 *.tfvars.json
