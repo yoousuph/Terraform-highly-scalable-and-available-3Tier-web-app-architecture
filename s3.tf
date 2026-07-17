@@ -14,12 +14,22 @@ resource "aws_s3_object" "web_files" {
   etag   = filemd5("${path.module}/webapp/web/${each.value}")
 }
 
-// Sync app files from the local directory to the S3 bucket
+// # Upload all application files except DbConfig.js.tpl
+  
+// exclude DbConfig.js.tpl first
+locals {
+  app_files = {
+    for f in fileset("${path.module}/webapp/app", "**") :
+    f => f
+    if f != "DbConfig.js.tpl"
+  }
+}
+
+// then upload all files in the ap folder
 resource "aws_s3_object" "app_files" {
-  for_each = fileset("${path.module}/webapp/app", "**")
+  for_each = local.app_files
 
   bucket = aws_s3_bucket.s3_netflix_bucket.id
-
   key    = "app/${each.value}"
   source = "${path.module}/webapp/app/${each.value}"
   etag   = filemd5("${path.module}/webapp/app/${each.value}")
@@ -33,11 +43,10 @@ resource "aws_s3_object" "nginx_file" {
   content_type = "text/plain"
 }
 
-// Copy nginx file from the local directory to the S3 bucket
 resource "aws_s3_object" "db_config_file" {
   bucket       = aws_s3_bucket.s3_netflix_bucket.id
-  key          = "DbConfig.js"
+  key          = "app/DbConfig.js"
   content      = local.db_config
-  content_type = "text/plain"
-  etag         = md5(local.db_config)
+  content_type = "application/javascript"
 }
+
