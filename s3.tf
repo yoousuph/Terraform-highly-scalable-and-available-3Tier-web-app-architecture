@@ -15,7 +15,7 @@ resource "aws_s3_object" "web_files" {
 }
 
 // # Upload all application files except DbConfig.js.tpl
-  
+
 // exclude DbConfig.js.tpl first
 locals {
   app_files = {

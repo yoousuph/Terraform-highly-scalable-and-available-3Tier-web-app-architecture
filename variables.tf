@@ -131,8 +131,8 @@ variable "nat_eip_name" {
 // ------------------------- ROUTE TABLE VARIABLES -----------------------------
 // PUBLIC ROUTE TABLE (NAME, CIDR,)
 variable "public_rt_name" {
-  default = "Public Route Table"
   type    = string
+  default = "Public Route Table"
 }
 
 variable "public_rt_cidr" {
@@ -143,8 +143,8 @@ variable "public_rt_cidr" {
 
 // PRIVATE ROUTE TABLE (NAME & CIDR)
 variable "private_rt_name" {
-  default = "Private Route Table"
   type    = string
+  default = "Private Route Table"
 }
 
 variable "private_rt_cidr" {
@@ -244,15 +244,15 @@ variable "db_port" {
 }
 
 variable "db_ingress_cidr" {
-  type        = string
+  type        = list(string)
   description = "CIDR block to allow inbound traffic to the RDS database security group"
-  default     = "0.0.0.0/0"
+  default     = ["0.0.0.0/0"]
 }
 
 variable "db_egress_cidr" {
-  type        = string
+  type        = list(string)
   description = "CIDR block to allow outbound traffic from the RDS database security group"
-  default     = "0.0.0.0/0"
+  default     = ["0.0.0.0/0"]
 }
 
 // --------------------- IAM ROLE VARIABLES ---------------------
@@ -377,7 +377,7 @@ variable "pub_sub_asg_lt_ami" {
 variable "pub_sub_asg_lt_instance_type" {
   type        = string
   description = "T2 Micro Instance Type"
-  default     = "t2.micro"
+  default     = "t2.nano"
 }
 
 // PUBLIC SUBNET LT FOR ASG (NAME, AMI, & INSTANCE-TYPE)
@@ -396,7 +396,7 @@ variable "priv_sub_asg_lt_ami" {
 variable "priv_sub_asg_lt_instance_type" {
   type        = string
   description = "T2 Micro Instance Type"
-  default     = "t2.micro"
+  default     = "t2.nano"
 }
 
 
@@ -474,8 +474,9 @@ variable "db_subnet_group_name" {
 // ------------------------ INSTANCES DHCP ENABLE VARIABLES ---------------------
 // INSTANCE AUTO ASSIGN IP
 variable "auto_assign_ip" {
-  default = "true"
-  type    = bool
+  default     = "true"
+  description = "auto assign public IPs to instances"
+  type        = bool
 }
 
 
