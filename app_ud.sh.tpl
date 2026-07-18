@@ -34,21 +34,14 @@ MYSQL_PWD="${db_password}" mysql \
     -u "${db_username}" <<EOF
 
 CREATE DATABASE IF NOT EXISTS ${db_name};
-
 USE ${db_name};
-
 CREATE TABLE IF NOT EXISTS transactions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     amount DECIMAL(10,2),
     description VARCHAR(100)
 );
-
-INSERT INTO transactions (amount, description)
-VALUES (7000,'Furniture');
-
-INSERT INTO transactions (amount, description)
-VALUES (5000,'Gadgets');
-
+INSERT INTO transactions (amount, description) VALUES (7000,'Furniture');
+INSERT INTO transactions (amount, description) VALUES (5000,'Gadgets');
 EOF
 
 echo "Database configured."
@@ -57,9 +50,7 @@ echo "Database configured."
 mkdir -p /home/ec2-user/app
 
 # Download backend files
-s3://yoousuph-terraform-netflix-files/app/ \
-/home/ec2-user/app/ \
---recursive
+aws s3 cp s3://yoousuph-terraform-netflix-files/app/ /home/ec2-user/app/ --recursive
 
 # Set ownership
 chown -R ec2-user:ec2-user /home/ec2-user/app

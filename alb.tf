@@ -7,13 +7,9 @@ resource "aws_lb" "pub_sub_alb" {
     aws_subnet.public_subnet2.id
   ]
 
-  security_groups = [
-    aws_security_group.pub_sub_alb_sg.id
-  ]
+  security_groups = [aws_security_group.pub_sub_alb_sg.id]
 
-  depends_on = [
-    aws_lb_target_group.pub_sub_alb_tg
-  ]
+  depends_on = [aws_lb_target_group.pub_sub_alb_tg]
 
   tags = {
     Name = var.pub_load_balancer_name
@@ -64,13 +60,9 @@ resource "aws_lb" "priv_sub_alb" {
 
   internal = true
 
-  security_groups = [
-    aws_security_group.priv_sub_alb_sg.id
-  ]
+  security_groups = [aws_security_group.priv_sub_alb_sg.id]
 
-  depends_on = [
-    aws_lb_target_group.priv_sub_alb_tg
-  ]
+  depends_on = [aws_lb_target_group.priv_sub_alb_tg]
 
   tags = {
     Name = var.priv_load_balancer_name
