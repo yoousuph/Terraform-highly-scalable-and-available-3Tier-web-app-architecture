@@ -21,7 +21,7 @@ locals {
   app_files = {
     for f in fileset("${path.module}/webapp/app", "**") :
     f => f
-    if f != "DbConfig.js.tpl"
+    if f != "index.js.tpl"
   }
 }
 
@@ -45,7 +45,7 @@ resource "aws_s3_object" "nginx_file" {
 
 resource "aws_s3_object" "db_config_file" {
   bucket       = aws_s3_bucket.s3_netflix_bucket.id
-  key          = "app/DbConfig.js"
+  key          = "app/index.js" 
   content      = local.db_config
   content_type = "application/javascript"
 }

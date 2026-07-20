@@ -36,13 +36,22 @@ MYSQL_PWD="${db_password}" mysql \
 
 CREATE DATABASE IF NOT EXISTS ${db_name};
 USE ${db_name};
-CREATE TABLE IF NOT EXISTS transaction (
+
+CREATE TABLE IF NOT EXISTS todos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    amount DECIMAL(10,2),
-    description VARCHAR(100)
+    task VARCHAR(255) NOT NULL,
+    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) NOT NULL DEFAULT 'pending'
 );
-INSERT INTO transaction (amount, description) VALUES (7000,'Furniture');
-INSERT INTO transaction (amount, description) VALUES (5000,'Gadgets');
+
+INSERT INTO todos (task, status)
+VALUES
+    ('Buy cake', 'pending'),
+    ('Finish Terraform project', 'in progress'),
+    ('Study Node.js APIs', 'pending'),
+    ('Deploy React app', 'completed'),
+    ('Review AWS security groups', 'pending');
+    
 EOF
 
 echo "Database configured."

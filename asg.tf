@@ -12,7 +12,9 @@ resource "aws_launch_template" "pub_sub_asg_lt" {
     name = aws_iam_instance_profile.ec2_iam_instance_profile.name
   }
 
-  
+  depends_on = [
+    aws_s3_object.nginx_file
+  ]
 }
 
 # Create an autoscaling group with the specified configurations

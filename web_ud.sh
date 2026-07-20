@@ -67,15 +67,15 @@ echo "[14] Building React app..."
 npm run build
 echo "✓ React build complete"
 
-echo "[15] Listing build directory..."
-ls -lah build
+echo "[15] Listing dist directory..."
+ls -lah dist
 
 echo "[16] Removing default nginx files..."
 rm -rf /usr/share/nginx/html/*
 echo "✓ Default files removed"
 
-echo "[17] Copying React build..."
-cp -r build/* /usr/share/nginx/html/
+echo "[17] Copying React dist files..."
+cp -r dist/* /usr/share/nginx/html/
 echo "✓ React copied"
 
 echo "[18] Downloading nginx.conf from S3..."

@@ -410,7 +410,7 @@ variable "db_instance_identifier" {
 variable "db_name" {
   type        = string
   description = "Name of the RDS database"
-  default     = "appdb"
+  default     = "todobd"
 }
 
 variable "db_username" {
