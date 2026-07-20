@@ -1,4 +1,5 @@
 #!/bin/bash
+
 set -euxo pipefail
 
 # Log all output
@@ -35,13 +36,13 @@ MYSQL_PWD="${db_password}" mysql \
 
 CREATE DATABASE IF NOT EXISTS ${db_name};
 USE ${db_name};
-CREATE TABLE IF NOT EXISTS transactions (
+CREATE TABLE IF NOT EXISTS transaction (
     id INT AUTO_INCREMENT PRIMARY KEY,
     amount DECIMAL(10,2),
     description VARCHAR(100)
 );
-INSERT INTO transactions (amount, description) VALUES (7000,'Furniture');
-INSERT INTO transactions (amount, description) VALUES (5000,'Gadgets');
+INSERT INTO transaction (amount, description) VALUES (7000,'Furniture');
+INSERT INTO transaction (amount, description) VALUES (5000,'Gadgets');
 EOF
 
 echo "Database configured."

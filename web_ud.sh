@@ -2,50 +2,95 @@
 
 set -euo pipefail
 
-# Log user data output
+# Log everything
 exec > >(tee /var/log/user-data.log | logger -t user-data) 2>&1
 
-# Switch to root user
-sudo su
+echo "========== Web Tier Setup Started =========="
 
-# Update system
+echo "[1] Running as user:"
+whoami
+
+echo "[2] Updating system..."
 dnf update -y
+echo "✓ System updated"
 
-# Install Nginx and AWS CLI
+echo "[3] Installing Nginx and AWS CLI..."
 dnf install -y nginx awscli
+echo "✓ Nginx and AWS CLI installed"
 
-# Enable and start Nginx
+echo "[4] Enabling Nginx..."
 systemctl enable nginx
 systemctl start nginx
+systemctl status nginx --no-pager
+echo "✓ Nginx started"
 
-# install nodejs
+echo "[5] Installing Node.js..."
 dnf install -y nodejs
+echo "✓ Node.js installed"
+
+echo "[6] Node version:"
 node -v
+
+echo "[7] npm version:"
 npm -v
 
-# Create application directory
-mkdir /home/ec2-user/web
+echo "[8] Waiting for IAM role credentials..."
 
-# Download application files from S3
+until aws sts get-caller-identity >/dev/null 2>&1
+do
+    echo "IAM role not ready yet..."
+    sleep 5
+done
+
+echo "✓ IAM credentials available"
+
+echo "[9] Creating application directory..."
+mkdir -p /home/ec2-user/web
+echo "✓ Directory created"
+
+echo "[10] Downloading React application..."
 aws s3 cp s3://yoousuph-terraform-netflix-files/web/ /home/ec2-user/web/ --recursive
+echo "✓ React files downloaded"
 
-# Change to application directory
+echo "[11] Listing downloaded files..."
+ls -lah /home/ec2-user/web
+
+echo "[12] Changing directory..."
 cd /home/ec2-user/web
+pwd
 
-# Install dependencies
+echo "[13] Installing npm packages..."
 npm install
+echo "✓ npm install complete"
 
-# Build the React application
+echo "[14] Building React app..."
 npm run build
+echo "✓ React build complete"
 
-# Remove default nginx files
+echo "[15] Listing build directory..."
+ls -lah build
+
+echo "[16] Removing default nginx files..."
 rm -rf /usr/share/nginx/html/*
+echo "✓ Default files removed"
 
-# Copy React build output
-cp -r /home/ec2-user/web/build/* /usr/share/nginx/html/
+echo "[17] Copying React build..."
+cp -r build/* /usr/share/nginx/html/
+echo "✓ React copied"
 
-# Download custom nginx configuration
-aws s3 cp s3://yoousuph-terraform-netflix-files/webapp/nginx.conf /etc/nginx/nginx.conf
+echo "[18] Downloading nginx.conf from S3..."
+aws s3 cp s3://yoousuph-terraform-netflix-files/nginx.conf /etc/nginx/nginx.conf
+echo "✓ nginx.conf downloaded"
 
-# Restart nginx
+echo "[19] Checking nginx configuration..."
+nginx -t
+echo "✓ nginx configuration is valid"
+
+echo "[20] Restarting nginx..."
 systemctl restart nginx
+echo "✓ nginx restarted"
+
+echo "[21] Nginx status..."
+systemctl status nginx --no-pager
+
+echo "========== Web Tier Setup Complete =========="

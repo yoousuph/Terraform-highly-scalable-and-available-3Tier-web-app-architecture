@@ -45,12 +45,12 @@ http {
         #react app and front end files
         location / {
         root    /usr/share/nginx/html/;
-        index index.html index.htm
+        index index.html index.htm;
         try_files $uri /index.html;
         }
 
         #proxy for internal lb
-        location /app/{
+        location /api/ {
                 proxy_pass http://${internal_alb_dns}:80/;
         }
     }
