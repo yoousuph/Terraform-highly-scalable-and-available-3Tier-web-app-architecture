@@ -15,7 +15,7 @@ const Home = () => {
 
     const handleAddTask = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5000/new-task', {task})
+        axios.post('/api/new-task', {task})
         .then(res => {
             setTodos(res.data)
             setTask('')
@@ -24,7 +24,7 @@ const Home = () => {
     }
 
     useEffect(() => {
-        axios.get('http://localhost:5000/read-tasks')
+        axios.get('/api/read-tasks')
         .then(res => {
             setTodos(res.data)
             
@@ -44,7 +44,7 @@ const Home = () => {
     }
 
     const updateTask = () => {
-        axios.post('http://localhost:5000/update-task', {updateId, task})
+        axios.post('/api/update-task', {updateId, task})
         .then(res => {
             setTodos(res.data)
             setTask('')
@@ -54,7 +54,7 @@ const Home = () => {
     }
 
     const handleDelete = (id) => {
-        axios.post('http://localhost:5000/delete-task', {id})
+        axios.post('/api/delete-task', {id})
         .then(res => {
             setTodos(res.data)
         })
@@ -62,7 +62,7 @@ const Home = () => {
     }
 
     const handleComplete = (id) => {
-        axios.post('http://localhost:5000/complete-task', {id})
+        axios.post('/api/complete-task', {id})
         .then(res => {
             setTodos(res.data)
         })
