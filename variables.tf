@@ -1,7 +1,7 @@
 // ---------------------------------- VPC VARIABLES ------------------------------
 // VPC
 variable "vpc_name" {
-  default = "three-tier-vpc"
+  default = "three-tier-vpc-todo"
   type    = string
 }
 
@@ -410,7 +410,7 @@ variable "db_instance_identifier" {
 variable "db_name" {
   type        = string
   description = "Name of the RDS database"
-  default     = "todobd"
+  default     = "tododb"
 }
 
 variable "db_username" {

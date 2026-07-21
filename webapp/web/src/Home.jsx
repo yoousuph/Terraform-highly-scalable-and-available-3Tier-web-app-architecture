@@ -11,6 +11,7 @@ const Home = () => {
 
     const handleTabs = (tab) => {
         setTab(tab)
+        
     }
 
     const handleAddTask = (e) => {

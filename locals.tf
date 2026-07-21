@@ -23,5 +23,5 @@ locals {
     db_username = aws_db_instance.db_instance.username
     db_password = aws_db_instance.db_instance.password
     db_name     = aws_db_instance.db_instance.db_name
-})
+  })
 }

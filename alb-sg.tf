@@ -51,9 +51,9 @@ resource "aws_security_group" "priv_sub_alb_sg" {
   # Inbound Rule
   # HTTP access from anywhere
   ingress {
-    description = var.priv_sub_http_port
-    from_port   = var.priv_sub_http_port
-    to_port     = var.priv_sub_http_port
+    description = var.pub_sub_http_port
+    from_port   = var.pub_sub_http_port
+    to_port     = var.pub_sub_http_port
     protocol    = var.tcp_protocol
     cidr_blocks = var.priv_sub_alb_sg_ingress_cidr_blocks
   }

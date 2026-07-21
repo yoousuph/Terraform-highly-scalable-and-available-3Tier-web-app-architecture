@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "pub_sub_alb_tg" {
   # Set the health check configuration for the target group
   health_check {
     interval = 60
-    path     = "/health"
+    path     = "/"
     port     = var.pub_sub_http_port
     timeout  = 45
     protocol = var.http_protocol
@@ -80,7 +80,7 @@ resource "aws_lb_target_group" "priv_sub_alb_tg" {
   # Set the health check configuration for the target group
   health_check {
     interval = 60
-    path     = "/"
+    path     = "/health"
     port     = var.priv_sub_http_port
     timeout  = 45
     protocol = var.http_protocol

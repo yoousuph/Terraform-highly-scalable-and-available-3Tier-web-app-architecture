@@ -6,6 +6,8 @@ const mysql = require('mysql2')
 app.use(express.json())
 app.use(cors()) //cross-origin resouce 
 
+const port = process.env.PORT || 4000
+
 // connection credentials to RDS database
 const db = mysql.createConnection({
     host : "${rds_address}",
@@ -24,6 +26,10 @@ db.connect((err) => {
         
     }
 })
+
+app.get('/health',(req,res)=>{
+    res.json("This is the health check");
+});
 
 app.post('/new-task', (req, res) => {
     console.log(req.body);
@@ -117,6 +123,6 @@ app.post('/complete-task', (req, res) => {
     })
 })
 
-app.listen(4000, () => {console.log('server is running on port 4000');
+app.listen(port, () => {console.log('server is running on port 4000');
 })
 
