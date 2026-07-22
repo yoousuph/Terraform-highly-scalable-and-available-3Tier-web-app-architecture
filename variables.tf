@@ -482,45 +482,39 @@ variable "auto_assign_ip" {
 
 // ------------------------------- PORT VARIABLES ------------------------------
 // PUBLIC SUBNET TRAFFIC PORTS (HTTP AND SSH)
-variable "pub_sub_http_port" {
+variable "tcp_protocol" {
+  type        = string
+  description = "TCP Protocol for resource"
+  default     = "TCP"
+}
+
+variable "http_protocol" {
+  type        = string
+  description = "HTTP Protocol for resource"
+  default     = "HTTP"
+}
+
+variable "http_port" {
   type        = number
   description = "Allow HTTP Traffic"
   default     = 80
 }
 
-variable "pub_sub_ssh_port" {
+variable "ssh_port" {
   type        = number
   description = "Allow SSH Traffic"
   default     = 22
 }
 
-variable "tcp_protocol" {
-  type        = string
-  description = "TCP Protocol for resource"
-  default     = "tcp"
-}
-
-variable "http_protocol" {
-  type        = string
-  description = "HTTP protocol for resource"
-  default     = "HTTP"
-}
-
 // PRIVATE SUBNET TRAFFIC PORTS (HTTP AND SSH)
-variable "priv_sub_http_port" {
+variable "cust_http_port" {
   type        = number
   description = "Allow HTTP Traffic"
   default     = 4000
 }
 
-variable "priv_sub_ssh_port" {
-  type        = number
-  description = "Allow SSH Traffic"
-  default     = 22
-}
-
 // PRIVATE SUBNET TRAFFIC PORTS FOR DATABASE (HTTP AND SSH)
-variable "priv_db_sub_mysql_port" {
+variable "mysql_port" {
   type        = number
   description = "Allow MYSQL Traffic"
   default     = 3306
@@ -540,3 +534,40 @@ variable "any_protocol" {
   default     = "-1"
 }
 
+// HEALTH CHECK INTERVAL
+variable "hc_interval" {
+  type        = number
+  description = "Interval for health check"
+  default     = 35
+}
+
+// HEALTH CHECK INTERVAL
+variable "hc_timeout" {
+  type        = number
+  description = "Interval for health check"
+  default     = 5
+}
+
+variable "root_path" {
+  type        = string
+  description = "Root path for the application"
+  default     = "/"
+}
+
+variable "health_path" {
+  type        = string
+  description = "Health path for the application"
+  default     = "/health"
+}
+
+variable "matcher" {
+  type        = string
+  description = "Health path for the application"
+  default     = "200-203"
+}
+
+variable "alb_listener_default_action" {
+  type        = string
+  description = "Health path for the application"
+  default     = "forward"
+}

@@ -72,20 +72,20 @@ const Home = () => {
     
 
   return (
-    <div className=' bg-gray-100 w-screen h-screen'>
+    <div className=' bg-gray-screen w-screen h-screen'>
         <div className=' flex flex-col w-screen h-screen justify-center items-center'>
             <div>
-                <h2 className=' font-bold text-2xl mb-4'>ToDo List</h2>
+                <h2 className=' font-bold text-2xl mb-4'>ToDo Tasks</h2>
             </div>
             <div className=' flex gap-3'>
-                <input value={task} onChange={e => setTask(e.target.value)} type='text' placeholder='Enter todo' className=' w-64 p-2 outline-none border border-blue-300 rounded-md' />
-                <button  className=' bg-blue-600 text-white px-4 rounded-md'>{isEdit ? <button onClick={updateTask}>Update</button> : <button onClick={handleAddTask}>add</button>}</button>
+                <input value={task} onChange={e => setTask(e.target.value)} type='text' placeholder='Enter task' className=' w-64 p-2 outline-none border border-blue-300 rounded-md' />
+                <button  className=' bg-green-600 text-white px-4 rounded-md'>{isEdit ? <button onClick={updateTask}>Update</button> : <button onClick={handleAddTask}>add</button>}</button>
             </div>
 
             <div className=' flex text-sm w-80 justify-evenly mt-4'>
                 <p onClick={() => handleTabs(1)} className={`${tab === 1 ? 'text-blue-700' : 'text-black'} cursor-pointer`}>All</p>
                 <p onClick={() => handleTabs(2)} className={`${tab === 2 ? 'text-blue-700' : 'text-black'} cursor-pointer`}>Active</p>
-                <p onClick={() => handleTabs(3)} className={`${tab === 3 ? 'text-blue-700' : 'text-black'} cursor-pointer`}>Completed</p>
+                <p onClick={() => handleTabs(3)} className={`${tab === 3 ? 'text-blue-700' : 'text-black'} cursor-pointer`}>Done</p>
             </div>
 
             {
@@ -100,7 +100,7 @@ const Home = () => {
                         <div className=' flex flex-col text-sm justify-start items-start'>
                             {todo.status == 'completed' ? null : <button className=' text-blue-600 cursor-pointer' onClick={() => handleEdit(todo.id, todo.task)}>Edit</button>}
                             <button className=' text-red-500 cursor-pointer' onClick={() => handleDelete(todo.id)}>Delete</button>
-                            {todo.status == 'completed' ? null : <button className=' text-green-600 cursor-pointer' onClick={() => handleComplete(todo.id)}>Completed</button>}
+                            {todo.status == 'completed' ? null : <button className=' text-green-600 cursor-pointer' onClick={() => handleComplete(todo.id)}>Done</button>}
 
                         </div>
                     </div>
