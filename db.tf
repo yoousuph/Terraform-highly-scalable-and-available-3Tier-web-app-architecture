@@ -34,3 +34,4 @@ resource "aws_db_subnet_group" "db_subnet_group" {
     Name = var.db_subnet_group_name
   }
 }
+

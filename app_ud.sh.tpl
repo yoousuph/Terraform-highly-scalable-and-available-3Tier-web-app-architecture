@@ -12,15 +12,14 @@ dnf update -y
 # install nodejs and mysql
 dnf install -y nodejs mariadb105
 
-# Wait until RDS is available
 echo "Waiting for RDS..."
 
 until mysqladmin \
-    -h "${rds_address}" \
-    -P "${rds_port}" \
-    -u "${db_username}" \
-    -p"${db_password}" \
-    ping --silent
+-h "${rds_address}" \
+-P "${rds_port}" \
+-u "${db_username}" \
+-p"${db_password}" \
+ping --silent
 do
     echo "RDS not ready..."
     sleep 10
@@ -28,31 +27,16 @@ done
 
 echo "RDS is ready."
 
-# Login to RDS instance and create database
-MYSQL_PWD="${db_password}" mysql \
-    -h "${rds_address}" \
-    -P "${rds_port}" \
-    -u "${db_username}" <<EOF
+echo "Downloading SQL..."
 
-CREATE DATABASE IF NOT EXISTS ${db_name};
-USE ${db_name};
+aws s3 cp s3://${s3_bucket_name}/sql/init.sql /tmp/init.sql
 
-CREATE TABLE IF NOT EXISTS todos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    task VARCHAR(255) NOT NULL,
-    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) NOT NULL DEFAULT 'pending'
-);
-
-INSERT INTO todos (task, status)
-VALUES
-    ('Buy cake', 'pending'),
-    ('Finish Terraform project', 'in progress'),
-    ('Study Node.js APIs', 'pending'),
-    ('Deploy React app', 'completed'),
-    ('Review AWS security groups', 'pending');
-    
-EOF
+mysql \
+-h "${rds_address}" \
+-P "${rds_port}" \
+-u "${db_username}" \
+-p"${db_password}" \
+< /tmp/init.sql
 
 echo "Database configured."
 
@@ -80,10 +64,3 @@ pm2 save
 "
 
 echo "========== App Tier Setup Complete =========="
-
-
-
-
-
-
-

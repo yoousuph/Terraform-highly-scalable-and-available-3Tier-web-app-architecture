@@ -8,6 +8,17 @@ locals {
 # locals for database login credentials
 locals {
   app_user_data = templatefile("${path.module}/app_ud.sh.tpl", {
+    rds_address    = aws_db_instance.db_instance.address
+    rds_port       = aws_db_instance.db_instance.port
+    db_username    = aws_db_instance.db_instance.username
+    db_password    = aws_db_instance.db_instance.password
+    db_name        = aws_db_instance.db_instance.db_name
+    s3_bucket_name = aws_s3_bucket.s3_todo_app_bucket.bucket
+  })
+}
+
+locals {
+  index_file = templatefile("${path.module}/webapp/app/index.js.tpl", {
     rds_address = aws_db_instance.db_instance.address
     rds_port    = aws_db_instance.db_instance.port
     db_username = aws_db_instance.db_instance.username
@@ -17,11 +28,11 @@ locals {
 }
 
 locals {
-  db_config = templatefile("${path.module}/webapp/app/index.js.tpl", {
-    rds_address = aws_db_instance.db_instance.address
-    rds_port    = aws_db_instance.db_instance.port
-    db_username = aws_db_instance.db_instance.username
-    db_password = aws_db_instance.db_instance.password
-    db_name     = aws_db_instance.db_instance.db_name
+  sql_init = templatefile("${path.module}/sql/init.sql.tpl", {
+    # rds_address = aws_db_instance.db_instance.address
+    # rds_port    = aws_db_instance.db_instance.port
+    # db_username = aws_db_instance.db_instance.username
+    # db_password = aws_db_instance.db_instance.password
+    db_name = aws_db_instance.db_instance.db_name
   })
 }

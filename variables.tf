@@ -33,6 +33,12 @@ variable "availability_zone_2" {
   type    = string
 }
 
+// ----------------------------  S3 BUCKET  -------------------------------
+variable "s3_bucket_name" {
+  type        = string
+  description = "S3 file name"
+  default     = "terraform-todo-app-files"
+}
 
 // ------------------------------ SUBNET VARIABLES ----------------------------------
 // PUBLIC SUBNET 1
@@ -125,6 +131,13 @@ variable "nat_gw_name" {
 variable "nat_eip_name" {
   default = "ngw-eip"
   type    = string
+}
+
+// NAT GW DOMAIN
+variable "nat_gw_domain" {
+  type        = string
+  description = "nat domain "
+  default     = "vpc"
 }
 
 
@@ -357,6 +370,24 @@ variable "iam_instance_profile_name" {
   type        = string
   description = "Name of the IAM instance profile for EC2 instances"
   default     = "ec2-s3-readonly-profile"
+}
+
+variable "instance_tenancy" {
+  type        = string
+  description = "Default instance tenancy"
+  default     = "default"
+}
+
+variable "pub_sub_map_public_ip_on_launch" {
+  type        = bool
+  description = "Default instance tenancy"
+  default     = true
+}
+
+variable "priv_sub_map_public_ip_on_launch" {
+  type        = bool
+  description = "Default instance tenancy"
+  default     = false
 }
 
 

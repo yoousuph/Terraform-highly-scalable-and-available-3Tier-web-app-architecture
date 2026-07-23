@@ -11,7 +11,7 @@ resource "aws_internet_gateway" "vpc_igw" {
 // NAT GATEWAY
 # Create an Elastic IP address
 resource "aws_eip" "nat_gw_eip" {
-  domain = "vpc"
+  domain = var.nat_gw_domain
 
   tags = {
     Name = var.nat_eip_name

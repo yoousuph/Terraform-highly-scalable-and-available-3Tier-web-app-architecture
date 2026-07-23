@@ -32,10 +32,6 @@ resource "aws_autoscaling_group" "pub_sub_asg" {
     id = aws_launch_template.pub_sub_asg_lt.id
   }
 
-  # depends_on = [
-  #   aws_s3_object.s3_netflix_bucket
-  # ]
-
   # Tag the autoscaling group for easier identification
   tag {
     key                 = "Name"
@@ -81,10 +77,6 @@ resource "aws_autoscaling_group" "priv_sub_asg" {
   launch_template {
     id = aws_launch_template.priv_sub_asg_lt.id
   }
-
-  #  depends_on = [
-  #   aws_s3_object.s3_netflix_bucket
-  # ]
 
   # Tag the autoscaling group for easier identification
   tag {

@@ -33,7 +33,7 @@ app.get('/health',(req,res)=>{
 
 app.post('/new-task', (req, res) => {
     console.log(req.body);
-    const q  = 'insert into todos (task, createdAt, status) values (?, ?, ?)';
+    const q  = 'insert into todos (task, createdOn, status) values (?, ?, ?)';
     db.query(q, [req.body.task, new Date(), 'active'], (err, result) => {
         if(err){
             console.log('failed to store');
