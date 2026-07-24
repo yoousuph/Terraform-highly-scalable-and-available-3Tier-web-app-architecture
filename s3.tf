@@ -6,10 +6,10 @@ resource "aws_s3_bucket" "s3_todo_app_bucket" {
 // Sync web files from the local directory to the S3 bucket
 resource "aws_s3_object" "web_files" {
   for_each = fileset("${path.module}/webapp/web", "**")
-  bucket = aws_s3_bucket.s3_todo_app_bucket.id
-  key    = "web/${each.value}"
-  source = "${path.module}/webapp/web/${each.value}"
-  etag   = filemd5("${path.module}/webapp/web/${each.value}")
+  bucket   = aws_s3_bucket.s3_todo_app_bucket.id
+  key      = "web/${each.value}"
+  source   = "${path.module}/webapp/web/${each.value}"
+  etag     = filemd5("${path.module}/webapp/web/${each.value}")
 }
 
 // exclude index.js.tpl and init.sql.tpl  first

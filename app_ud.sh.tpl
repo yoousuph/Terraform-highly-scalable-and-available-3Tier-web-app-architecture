@@ -44,7 +44,7 @@ echo "Database configured."
 mkdir -p /home/ec2-user/app
 
 # Download backend files
-aws s3 cp s3://yoousuph-terraform-netflix-files/app/ /home/ec2-user/app/ --recursive
+aws s3 cp s3://terraform-todo-app-files/app/ /home/ec2-user/app/ --recursive
 
 # Set ownership
 chown -R ec2-user:ec2-user /home/ec2-user/app

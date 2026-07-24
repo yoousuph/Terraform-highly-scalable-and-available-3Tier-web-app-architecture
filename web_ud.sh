@@ -49,7 +49,7 @@ mkdir -p /home/ec2-user/web
 echo "✓ Directory created"
 
 echo "[10] Downloading React application..."
-aws s3 cp s3://yoousuph-terraform-netflix-files/web/ /home/ec2-user/web/ --recursive
+aws s3 cp s3://terraform-todo-app-files/web/ /home/ec2-user/web/ --recursive
 echo "✓ React files downloaded"
 
 echo "[11] Listing downloaded files..."
@@ -79,7 +79,7 @@ cp -r dist/* /usr/share/nginx/html/
 echo "✓ React copied"
 
 echo "[18] Downloading nginx.conf from S3..."
-aws s3 cp s3://yoousuph-terraform-netflix-files/nginx.conf /etc/nginx/nginx.conf
+aws s3 cp s3://terraform-todo-app-files/nginx.conf /etc/nginx/nginx.conf
 echo "✓ nginx.conf downloaded"
 
 echo "[19] Checking nginx configuration..."
